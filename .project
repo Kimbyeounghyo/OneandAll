@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
+<<<<<<< HEAD
 	<name>TestProject</name>
+=======
+	<name>OneandAll</name>
+>>>>>>> branch 'master' of https://github.com/Kimbyeounghyo/OneandAll.git
 	<comment></comment>
 	<projects>
 	</projects>

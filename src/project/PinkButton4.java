@@ -1,47 +1,35 @@
-package customComponent;
+package project;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.RenderingHints;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.awt.FontMetrics;
+import java.awt.Rectangle;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 
-public class PinkIconButton extends JButton {
+@SuppressWarnings("serial")
+public class PinkButton4 extends JButton {
 	
 	Color buttonColor;
-	File imageFile;
 
-	public PinkIconButton() {
+	public PinkButton4() {
 		setBorderPainted(false);
 		setOpaque(false);
-		setContentAreaFilled(false);
 		
-		buttonColor = new Color(255, 198, 218);
+		buttonColor = new Color(255, 235, 235);
 	}
-	public PinkIconButton(String text) {
+	public PinkButton4(String text) {
 		setBorderPainted(false);
 		setOpaque(false);
 		
-		buttonColor = new Color(255, 198, 218);
+		buttonColor = new Color(255, 235, 235);
 		setText(text);
 	}
-	public PinkIconButton(File f) {
-		setBorderPainted(false);
-		setOpaque(false);
-		
-		buttonColor = new Color(255, 198, 218);
-		imageFile = f;
-	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		
@@ -57,17 +45,10 @@ public class PinkIconButton extends JButton {
 		}
 		
 		Dimension d = getSize();
+		//System.out.println(getText() + ", size : "+ getSize());
 		g2.fillRoundRect(0, 0, (int)d.getWidth(), (int)d.getHeight(), 10, 10);
-		try {
-			BufferedImage image = ImageIO.read(imageFile);
-			int w = (int)d.getWidth();
-			int h = (int)d.getHeight();
-			if(image != null) g2.drawImage(image, 0, 0, w, h, null);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		
+		g2.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
 		FontMetrics fontMetrics = g2.getFontMetrics();
 	    Rectangle stringBounds = fontMetrics.getStringBounds(this.getText(), g2).getBounds();
 
@@ -77,14 +58,5 @@ public class PinkIconButton extends JButton {
 	    g2.setColor(getForeground()); //앞배경 색(폰트 색)
 	    //g2.setFont(getFont());
 	    g2.drawString(getText(), textX, textY);
-	    g2.dispose();
-		
-		super.paintComponent(g);
 	}
-
-	
-	public File getImageFile() {
-		return imageFile;
-	}
-
 }

@@ -100,9 +100,7 @@ public class Tap extends JFrame {
 	      pMenu.add(member);
 	      pMenu.add(project);
 	      pMenu.add(schedule);
-	      
-	      
-	      
+
 	      
 	      setVisible(true);
 	}

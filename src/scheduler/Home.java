@@ -1,4 +1,5 @@
-package oneandall;
+package scheduler;
+
 
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -11,12 +12,14 @@ import javax.swing.JFrame;
 
 import javax.swing.JPanel;
 
+import ui.PinkButton;
 
-public class OneandAll_MainScreen extends JFrame{
+
+public class Home extends JFrame{
 	
 
 	
-	public OneandAll_MainScreen() {
+	public Home() {
 		
 	
 		
@@ -35,97 +38,71 @@ public class OneandAll_MainScreen extends JFrame{
 	      pMenu.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 	      getContentPane().add(pMenu);
 	      pMenu.setBackground(new Color(0, 0, 0));
-	      pMenu.setLayout(new GridLayout(1, 5, 10, 0)); //1í–‰4ì—´ì— 10ê³µë°±
+	      pMenu.setLayout(new GridLayout(1, 5, 10, 0)); //1Çà4¿­¿¡ 10°ø¹é
 	      add(pMenu);
 	      
-	      var home = new PinkButton("Home");
-	      home.addMouseListener(new MouseAdapter() {
-	    	  @Override
-				public void mousePressed(MouseEvent e) {
-					new OneandAll_Main();
-					}
-			
-		});
+	     
 	      
 	      var login = new PinkButton("Login");
 	      login.addMouseListener(new MouseAdapter() {
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				new Login();
+				//new Login();
 			}
 		
 	      });
 	     
-	      
-	      
 	      var member = new PinkButton("Member");
 	      member.addMouseListener(new MouseAdapter() {
-	    	  
-			@Override
-			public void mouseExited(MouseEvent e) {
-		
-				
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				new _Tap2();
-			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-
+				//new Mainview();
 			}
 	    	  
 		});
 	      
-	      var project = new PinkButton("Project");
-	      project.addMouseListener(new MouseAdapter() {
-	    	  @Override
-				public void mouseEntered(MouseEvent e) {
-					new _Tap2();
-				}
-		});
-	      
-	      
-	      
 	      var schedule = new PinkButton("Schedule");
 	      schedule.addMouseListener(new MouseAdapter() {
-	    	  @Override
-				public void mouseEntered(MouseEvent e) {
-					new _Tap2();
-				}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				new Calendarmain();
+				dispose();
+			}
+	    	  
 		});
+	     
 	      
-	      pMenu.add(home); 
+	      pMenu.add(new PinkButton("Home")); 
 	      pMenu.add(login);
 	      pMenu.add(member);
-	      pMenu.add(project);
+	      pMenu.add(new PinkButton("Project"));
 	      pMenu.add(schedule);
 	      
 	      
-	      //ì „ì²´íŒ¨ë„
+	      //ÀüÃ¼ÆĞ³Î
 	      JPanel Pn1 = new JPanel();
-	      Pn1.setBounds(0, 50, 1200, 550);
+	      Pn1.setBounds(0, 50, 1200, 1200);
 	      Pn1.setBackground(Color.black);
 	      Pn1.setLayout(null);
-	      //ì™¼ìª½ì•ˆìª½íŒ¨ë„
+	      //¿ŞÂÊ¾ÈÂÊÆĞ³Î
 	      JPanel PlefIn = new JPanel();
 	      PlefIn.setBounds(50, 120, 545, 300);
 	      PlefIn.setBackground(new Color(255, 198, 218));
 	      PlefIn.setLayout(null);   
-	      //ì˜¤ë¥¸ìª½ì•ˆìª½íŒ¨ë„
+	      //¿À¸¥ÂÊ¾ÈÂÊÆĞ³Î
 	      JPanel PrgIn = new JPanel();
 	      PrgIn.setBounds(600, 120, 545, 300);
 	      PrgIn.setBackground(new Color(255, 198, 218));
 	      PrgIn.setLayout(null);   
-	      //ì±„íŒ…íŒ¨ë„
+	      //Ã¤ÆÃÆĞ³Î
 	      JPanel Pchat = new JPanel();
 		  Pchat.setBounds(50, 475, 1100, 30);
 		  Pchat.setBackground(new Color(255, 198, 218));
 		  Pchat.setLayout(null);
-	      //ê³µì§€ì‚¬í•­íŒ¨ë„
+	      //°øÁö»çÇ×ÆĞ³Î
 		  JPanel Pnotice = new JPanel();
 		  Pnotice.setBounds(50,20,1095,95);
 		  Pnotice.setBackground(new Color(255, 198, 218));
@@ -152,7 +129,7 @@ public class OneandAll_MainScreen extends JFrame{
 public static void main(String[] args) {
 	
 	
-	new OneandAll_MainScreen();
+	new Home();
 }
 
 }

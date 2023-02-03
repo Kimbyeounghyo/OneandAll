@@ -14,6 +14,7 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class PinkPanel extends JPanel {
 	
+
 	Color buttonColor;
 
 	public PinkPanel() {

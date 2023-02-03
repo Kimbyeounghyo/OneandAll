@@ -30,6 +30,7 @@ public class _Tap2 extends JFrame{
 		     
 		     JButton Membnt1 = new PinkButton("팀원 관리");
 		     Membnt1.setBounds(486, 40, 228, 30);
+		     
 		     Membnt1.addMouseListener(new MouseAdapter() {
 
 					@Override
@@ -157,6 +158,7 @@ public class _Tap2 extends JFrame{
 
 				@Override
 				public void mousePressed(MouseEvent e) {
+
 				dispose();
 					
 				}

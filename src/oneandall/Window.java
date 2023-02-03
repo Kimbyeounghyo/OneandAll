@@ -1,4 +1,4 @@
-package OneAndAll_TeamMate;
+package oneandall;
 
 import java.awt.EventQueue;
 

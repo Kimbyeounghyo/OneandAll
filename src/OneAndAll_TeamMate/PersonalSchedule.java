@@ -1,4 +1,4 @@
-package OneAndAll_TeamMate;
+package oneandall;
 
 
 import java.awt.Color;
@@ -8,18 +8,20 @@ import java.awt.FileDialog;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.TextArea;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDate;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -32,12 +34,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import oneandall.GroupFunction;
+import oneandall.MemoFrame;
 import ui.GreenButton;
 import ui.PinkButton;
-import ui.PinkLabel;
-import ui.PinkPanel;
 import ui.PinkRoundButton;
 import ui.RedButton;
 import ui.RoundTextArea;
@@ -63,10 +66,11 @@ class Calendarmain extends JFrame implements ActionListener{
 	GroupFunction gF= new GroupFunction();
 	
 	ImageIcon star = new ImageIcon("별.png");
-	ImageIcon home = new ImageIcon("home.png");
 	ImageIcon panelpng = new ImageIcon("패널.png");
 	ImageIcon save = new ImageIcon("disk.png");
-	ImageIcon reset = new ImageIcon();
+	ImageIcon reset = new ImageIcon("reset.png");
+	ImageIcon group = new ImageIcon("group.png");
+	
 	
 	
 	//TODO Panel
@@ -79,8 +83,9 @@ class Calendarmain extends JFrame implements ActionListener{
 	JPanel Pchat = new JPanel();
 	 
 	JButton p_bar_G = new JButton();
-	JButton p_bar_R = new JButton(home);
+	JButton p_bar_R = new JButton();
 	JButton Calendar_bar = new JButton(star);
+	
 	
 	JButton buttonBefore = new PinkRoundButton("<");
 	JButton buttonAfter = new PinkRoundButton(">");
@@ -91,7 +96,7 @@ class Calendarmain extends JFrame implements ActionListener{
 	
 	//label은 p_month에 담았음
 	JLabel label = new JLabel("00년 0월");
-	JLabel Title = new JLabel("개인/그룹 일정"); //center 라벨
+	
 	JLabel[] Label_Day = new JLabel[42];
 	
 	
@@ -103,9 +108,7 @@ class Calendarmain extends JFrame implements ActionListener{
 	Color bg = new Color(255, 188, 218);
 	
 	RoundTextArea c_textArea = new RoundTextArea();
-	
    
-
 	//입력상자
     JTextField tf = new RoundTextField();
 	
@@ -126,6 +129,86 @@ class Calendarmain extends JFrame implements ActionListener{
 	}
 	public void init() {
 		
+		 //----------------------------Menu----------------------------
+		JPanel pMenu = new JPanel();
+	      pMenu.setBounds(0, 0, 1200, 50);
+	      pMenu.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+	      getContentPane().add(pMenu);
+	      pMenu.setBackground(new Color(0, 0, 0));
+	      pMenu.setLayout(new GridLayout(1, 5, 10, 0)); //1행4열에 10공백
+	      add(pMenu);
+	      
+	     
+	      var home = new PinkButton("Home");
+	      home.addMouseListener(new MouseAdapter() {
+	    	  @Override
+				public void mousePressed(MouseEvent e) {
+					new OneandAll_Main();
+					}
+			
+		});
+	      
+	      var login = new PinkButton("Logout");
+	      login.addMouseListener(new MouseAdapter() {
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				
+				}
+	      });
+	     
+	      
+	      
+	      var member = new PinkButton("Member");
+	      member.addMouseListener(new MouseAdapter() {
+	    	  
+			@Override
+			public void mouseExited(MouseEvent e) {
+		
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				new _Tap2();
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				new Member();
+			}
+	    	  
+		});
+	      
+	      var project = new PinkButton("Project");
+	      project.addMouseListener(new MouseAdapter() {
+	    	  @Override
+				public void mouseEntered(MouseEvent e) {
+					new _Tap2();
+				}
+		});
+	      
+	      
+	      
+	      var schedule = new PinkButton("Schedule");
+	      schedule.addMouseListener(new MouseAdapter() {
+	    	  @Override
+				public void mouseEntered(MouseEvent e) {
+					new _Tap2();
+				}
+		});
+	      
+	      
+	      pMenu.add(home); 
+	      pMenu.add(login);
+	      pMenu.add(member);
+	      pMenu.add(project);
+	      pMenu.add(schedule);
+	      
+	      //----------------------------Menu----------------------------
+	      
+	      
+	      
 		//TODO container
 		 container.setLayout(null);
 		 container.add(p_Month);
@@ -137,34 +220,26 @@ class Calendarmain extends JFrame implements ActionListener{
 		 container.add(Pchat);
 		 
 		// container.add(p_bar_G);
-		 container.add(p_bar_R);
-		 
 		 //위치 관련 코드
 		 p_North.setBounds(20,10,300,40);
 		 p_North.setBackground(Color.BLACK);
-		 p_North.add(Title);
 		 
-		 p_Month.setBounds(400,20,300,40);
+		 p_Month.setBounds(100,105,300,40);
 		 p_Month.setBackground(Color.BLACK);
 		 
-		 p_Calendar.setBounds(500,100,650,375);
+		 p_Calendar.setBounds(500,80,650,380);
 		 
-		 p_Center.setBounds(42,130,400,240);
+		 p_Center.setBounds(92,150,300,240);
 		 p_Center.setBackground(Color.black);
 		 
 		 
 		
 		 //panel_bar_Green을 줄인 말 : 달력에 스케쥴바
 		 p_bar_G.setBackground(Color.GREEN);
-		 p_bar_G.setBounds(0,0,50,10);
 		 p_bar_G.setVisible(true);
 		 
-		 p_bar_R.setBorder(BorderFactory.createEmptyBorder());
-		 p_bar_R.setBounds(20,20,40,30);
-		 p_bar_R.setBackground(Color.black);
-		 
 		 p_Calendar.setBorder(BorderFactory.createEmptyBorder());
-		 p_Calendar.setLayout(new GridLayout(7, 7, 0, 0));
+		 p_Calendar.setLayout(new GridLayout(7, 7, 7, 7));
 		 p_Calendar.setBackground(Color.white);
 		 //p_Calendar.setBorder(border);
 		 
@@ -181,13 +256,14 @@ class Calendarmain extends JFrame implements ActionListener{
 		 
 		 //개인일정 드랍다운 메뉴
 		 p_West.add(jComboBox);
-		 p_West.setBounds(60, 75, 140, 50);
+		 p_West.setBounds(80, 70, 140, 50);
 		 p_West.setBackground(Color.BLACK);
 		 
 		
 		 c_textArea.setBackground(Color.white);
 		 //			int width, int height
-		 c_textArea.setPreferredSize(new Dimension(330,200));
+		 //c_textArea.setBounds(0,0,300,200);
+		 c_textArea.setPreferredSize(new Dimension(300,200));
 		 
 		 //                              행 열 높이 행 갭
 
@@ -203,14 +279,6 @@ class Calendarmain extends JFrame implements ActionListener{
 	     label.setForeground(bg);
 		 
 		 label.setText(cF.getCalText());
-		 
-		 
-		 Title.setBackground(Color.BLACK);
-		 Title.setFont(font);
-		 Title.setOpaque(true);
-		 Title.setForeground(Color.PINK);
-		 
-		 Title.setText(gF.getGroupNameText());
 		 
 		 Pchat.setBounds(50, 505, 1100, 30);
 		 Pchat.setBackground(new Color(255, 198, 218));
@@ -271,14 +339,14 @@ class Calendarmain extends JFrame implements ActionListener{
 		 
 		 //TODO p_South 
 		 p_Center.add(c_textArea);
-		 p_South.setBounds(42,380,400,40);
+		 p_South.setBounds(42,420,400,40);
 		 p_South.setBackground(Color.black);
 		 p_South.add(btn);
 		 p_South.add(tf);
 		 p_South.add(endDateBtn);
 		 p_South.add(tf2);
 		 //리셋버튼
-		 JButton resetBtn = new GreenButton("초기화");
+		 JButton resetBtn = new JButton(reset);
 		 resetBtn.addActionListener(new ActionListener() {
 			
 			@Override
@@ -288,10 +356,27 @@ class Calendarmain extends JFrame implements ActionListener{
 			}
 		 });
 		 container.add(resetBtn);
-		 resetBtn.setBounds(975,20,50,20); // 리셋버튼
+		 resetBtn.setBounds(20,180,30,30); // 리셋버튼
 		 resetBtn.setPreferredSize(new Dimension(10,25));
+		 resetBtn.setBorder(BorderFactory.createEmptyBorder());
 		 
-		
+		 
+		 JButton groupbtn = new JButton(group);
+		 container.add(groupbtn);
+		 groupbtn.setBounds(20,320,30,30); // 그룹버튼
+		 groupbtn.setPreferredSize(new Dimension(10,25));
+		 groupbtn.setBorder(BorderFactory.createEmptyBorder());
+		 groupbtn.setBackground(null);
+
+		 groupbtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				dispose();
+				new CalendarGroup();
+			}
+		});
+		 
 		//TODO SaveButton
 		 JButton saveBtn = new JButton(save);
 		 saveBtn.addActionListener(new ActionListener() {
@@ -324,7 +409,7 @@ class Calendarmain extends JFrame implements ActionListener{
 				}
 			});
 		 //			     	x	y width height								
-		 saveBtn.setBounds(1090,20,50,40); // 저장 버튼
+		 saveBtn.setBounds(10,250,50,40); // 저장 버튼
 		 saveBtn.setPreferredSize(new Dimension(10,25));		 
 		 saveBtn.setBorder(BorderFactory.createEmptyBorder());
 		 saveBtn.setBackground(null);
@@ -362,7 +447,7 @@ class Calendarmain extends JFrame implements ActionListener{
 				 if(e.getKeyChar() == KeyEvent.VK_ENTER && tf.getText().equals("")) {
 					 JOptionPane.showMessageDialog(frame,"시작일을 입력해 주세요.");
 				 } else if(e.getKeyChar() == KeyEvent.VK_ENTER) {
-					 c_textArea.append("작업 일정 : "+ tf.getText()+"일 부터 ");
+					 c_textArea.append(tf.getText()+"일 부터 ");
 					 c_textArea.append(tf2.getText()+"일까지 작업!"+"\n");
 					 barMethod();
 				 }//if end
@@ -374,20 +459,6 @@ class Calendarmain extends JFrame implements ActionListener{
 			}
 			 
 		 });
-		 
-		 
-		 
-		 p_bar_R.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					new Home();
-					dispose();
-				}
-			});
-		 
-		 
-		
 		
 		 //다음 달로 가면 일정 초기화가 되는 기능
 			ActionListener cbtn = new ActionListener() {
@@ -407,7 +478,7 @@ class Calendarmain extends JFrame implements ActionListener{
 		 for(int i=0;i<buttonsOfDay.length;i++) {
 			 buttonsOfDay[i] = new PinkButton();
 			 p_Calendar.add(buttonsOfDay[i]);
-			 buttonsOfDay[i].setFont(new Font("SansSerif", Font.BOLD, 20));
+			 buttonsOfDay[i].setFont(new Font("SansSerif", Font.BOLD, 25));
 			 buttonsOfDay[i].setText(dayNames[i]);
 		 }
 		 
@@ -417,7 +488,7 @@ class Calendarmain extends JFrame implements ActionListener{
 			 Label_Day[i] = new JLabel();
 			 
 			 p_Calendar.add(Label_Day[i]);
-			 Label_Day[i].setFont(new Font("SansSerif", Font.PLAIN, 20));
+			 Label_Day[i].setFont(new Font("SansSerif", Font.PLAIN, 10));
 			 Label_Day[i].setOpaque(true);//배경색을 적용하려면 필요함
 			 Label_Day[i].setBackground(Color.white);
 			 if(i%7 == 0) Label_Day[i].setForeground(Color.RED);
@@ -428,7 +499,7 @@ class Calendarmain extends JFrame implements ActionListener{
 		 
 		//----------------------------------------------------
 	
-		 
+		
 		 cF.setButtons(Label_Day);
 		 cF.calSet();
 		//TODO ComboBox
@@ -439,37 +510,101 @@ class Calendarmain extends JFrame implements ActionListener{
 				if(jComboBox.getSelectedItem().equals("김지성")) {
 					//JOptionPane.showMessageDialog(frame,"이것좀해주세요");
 					loadSch();
+					personalSch("jskim");
 				}
 				else if(jComboBox.getSelectedItem().equals("김형우")) {
 					loadSch();
+					personalSch("hwkim");
 				}
 				else if(jComboBox.getSelectedItem().equals("이채윤(부팀장)")) {
 					loadSch();
+					personalSch("cylee");
 				}
 				else if(jComboBox.getSelectedItem().equals("김주은")) {
 					loadSch();
+					personalSch("jekim");
 				}
 				else if(jComboBox.getSelectedItem().equals("김병효(팀장)")) {
 					loadSch();
+					personalSch("bhkim");
 
-				}else if(jComboBox.getSelectedItem().equals("메인화면")) {
+				}else if(jComboBox.getSelectedItem().equals("개인일정")) {
 					loadSch();
 				}
-//				}else if(jComboBox.getSelectedItem().equals("그룹일정")) {
-//					loadSch();
-//					Label_Day[11].setBackground(new Color(255,242,255));
-//					Label_Day[11].add(Calendar_bar);
-//					Calendar_bar.addActionListener(new ActionListener() {
-//						
-//						@Override
-//						public void actionPerformed(ActionEvent e) {
-//							new MemoFrame();
-//						}
-//					} );
-//				}
 			}
 		});
 		 
+	}
+	
+
+	//개인 일정을 
+	//2월 3일 으로 입력했을때 일을 가져와서 해당일자에 스케쥴이 저장되는 메소드 
+	public void personalSch(String name) {//name = 파일 명
+		try {
+			Charset charset = Charset.forName("MS949");
+			List<String> lines = Files.readAllLines(Paths.get(name),charset);
+			System.out.println(lines);
+			List<Integer> list = new ArrayList<>();
+			for(String line : lines) {
+				int day = 0;
+				String todo = "";
+				
+				if(line.charAt(4)=='일') {//숫자가 아니면  1일 ~9일 사이
+					//System.out.print(i.charAt(3));
+					day = (int)line.charAt(3)-48;
+					
+					for(int i=6; i<line.length();i++) {
+						todo += line.charAt(i);
+					}
+					
+					if(list.contains(day)) {
+						 //System.out.println("중복 발생 " );
+						 tempH+=12;
+					 }else if(!list.contains(day)) {
+						// System.out.println("중복이 아니면 높이 초기화");
+						 tempH=0;
+					 }
+					list.add(day);
+				}else if(line.charAt(4)>=48&&line.charAt(4)<=57) { //10일 ~31일 사이
+					
+					//System.out.print(((int)i.charAt(3)-48)*10 +(int)i.charAt(4)-48);
+					day = ((int)line.charAt(3)-48)*10 +(int)line.charAt(4)-48;
+				
+					for(int i=7; i<line.length();i++) {
+						todo += line.charAt(i);
+					}
+					
+					if(list.contains(day)) {
+						// System.out.println("중복 발생 " );
+						 tempH+=12;
+					 }else if(!list.contains(day)) {
+						 //System.out.println("중복이 아니면 높이 초기화");
+						 tempH=0;
+					 }
+					 list.add(day);
+				}
+				//System.out.println();
+				
+				c_textArea.append(line.toString()+"\n");//불러온 글을 텍스트 에리아에 올리는 로직
+				
+				if(tempH<12) {
+					 p_bar_G=new PinkButton(todo);
+					 p_bar_G.setBounds(14,tempH,70,12);
+				}else if(tempH>=12 && tempH<24) {
+					 p_bar_G=new GreenButton(todo);
+					 p_bar_G.setBounds(14,tempH,70,12);
+				}
+				
+				 Label_Day[day+2].setBackground(new Color(255,255,242));
+				 Label_Day[day+2].add(p_bar_G);
+			
+				 
+				 
+				 
+			}//for line end
+		} catch (IOException e2) {
+			e2.printStackTrace();
+		}
 	}
 	
 	
@@ -491,33 +626,29 @@ class Calendarmain extends JFrame implements ActionListener{
 				 for(int j=0; j<=a-b;j++) {
 				 Label_Day[i-j].setBackground(new Color(255,255,222));
 				 Label_Day[i-j].setOpaque(true);
-				 p_bar_G=new JButton();
+				 p_bar_G=new PinkButton();
 				 list.add(p_bar_G);
-				 if(tempH<8) {
-				     p_bar_G.setBackground(new Color(255, 208, 218));
-				 }else if(tempH>=8 && tempH<16) {
-					 Label_Day[i-j].setBackground(new Color(255,255,227));
-					 p_bar_G.setBackground(new Color(255, 188, 218));
-				 }else if(tempH>=16 && tempH <24) {
-					 Label_Day[i-j].setBackground(new Color(255,255,232));
-					 p_bar_G.setBackground(new Color(255, 168, 218));
-				 }else if(tempH>=24 && tempH <32) {
-					 Label_Day[i-j].setBackground(new Color(255,255,242));
-					 p_bar_G.setBackground(new Color(217,255,179));
-				 }else if(tempH>=32 && tempH <40) {
-					 Label_Day[i-j].setBackground(new Color(255,255,247));
-					 p_bar_G.setBackground(new Color(179,255,198));
-				 }else if(tempH>=40) {
-					 JOptionPane.showMessageDialog(frame,"더이상 입력불가");
-					 tempH-=48;
-					 break;
-				 }
-				 p_bar_G.setBounds(0,10+tempH,100,8);
+				 	if(tempH<12) {
+				 		Label_Day[i-j].setBackground(new Color(255,255,242));
+				 	}else if(tempH>=12 && tempH<24) {
+						 Label_Day[i-j].setBackground(new Color(255,255,228));
+						 p_bar_G=new RedButton();
+					 }else if(tempH>=24 && tempH <36) {
+						 Label_Day[i-j].setBackground(new Color(255,255,232));
+						 p_bar_G=new GreenButton();
+					 }else if(tempH>=36 && tempH <48) {
+						 Label_Day[i-j].setBackground(new Color(255,255,242));
+						 p_bar_G=new GreenButton();
+						 JOptionPane.showMessageDialog(frame,"더이상 입력불가");
+						 tempH-=60;
+					 	}
+					 //바 크기 조정
+				 p_bar_G.setBounds(14,tempH,70,12);
 				 Label_Day[i-j].add(p_bar_G);
 				 }//for j end
 			 }
 		 }//for i end
-		 tempH+=8;
+		 tempH+=12;
 		 
 		 //바를 클릭하면 일정 메모가 나옴
 		 for(int i=0; i<list.size();i++) {
@@ -526,7 +657,7 @@ class Calendarmain extends JFrame implements ActionListener{
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						new MemoFrame();
-					}
+						}
 				});
 		 }
 		}catch (NumberFormatException e) {
@@ -539,7 +670,7 @@ class Calendarmain extends JFrame implements ActionListener{
 	
 	public void clearLabelDay() {
 		 for(int i=0;i<Label_Day.length;i++) {
-			 Label_Day[i].setFont(new Font("SansSerif", Font.PLAIN, 20));
+			 Label_Day[i].setFont(new Font("SansSerif", Font.PLAIN, 10));
 			 Label_Day[i].setOpaque(true);//배경색을 적용하려면 필요함
 			 Label_Day[i].setBackground(Color.white);
 			 Label_Day[i].removeAll();
@@ -555,7 +686,7 @@ class Calendarmain extends JFrame implements ActionListener{
 	public void loadSch() {
 		c_textArea.setText("");
 		clearLabelDay();
-		c_textArea.append(" "+jComboBox.getSelectedItem().toString()+"님의 일정관리 화면"+"\n");
+		//c_textArea.append(" "+jComboBox.getSelectedItem().toString()+"님의 일정관리 화면"+"\n");
 	}
 	
 	//다음달 이전달 버튼 클릭시 기능 수행

@@ -37,8 +37,8 @@ import customComponent.PinkRoundIconButton;
 import customComponent.PinkScroll;
 import customComponent.RoundTextArea;
 import customComponent.RoundTextField;
+import oneandall.EnvironmentConfigure;
 import util.CPTManager;
-import util.EnvironmentConfigure;
 
 public class TaskManagementPanel extends JDesktopPane {
 	

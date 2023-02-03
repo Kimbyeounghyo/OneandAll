@@ -39,7 +39,7 @@ public class Tap extends JFrame {
 	      home.addMouseListener(new MouseAdapter() {
 	    	  @Override
 				public void mousePressed(MouseEvent e) {
-					new OneandAll_Main();
+					new _____OneandAll_Main();
 					}
 			
 		});

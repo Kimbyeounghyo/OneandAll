@@ -7,6 +7,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.ArrayList;
 
+import oneandall.Coworker;
+import oneandall.Project;
+import oneandall.Task;
+
 public class TempObjectReader {
 	
 	public static String packageName = "coworker";

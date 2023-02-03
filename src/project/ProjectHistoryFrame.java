@@ -9,7 +9,7 @@ import javax.swing.JPanel;
 
 import customComponent.PinkButton;
 import home.MenuPanel;
-import util.EnvironmentConfigure;
+import oneandall.EnvironmentConfigure;
 
 public class ProjectHistoryFrame extends JFrame {
 	

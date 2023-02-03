@@ -9,6 +9,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import oneandall.Coworker;
+import oneandall.Project;
+
 public class ConnectCoworkerFromProject {
 
 	//Coworker 에서 가져온 데이터를 특정프로젝트에 넣기위해 만든 임시 기능

@@ -30,7 +30,7 @@ import customComponent.PinkRoundIconButton;
 import customComponent.PinkScroll;
 import customComponent.RoundTextArea;
 import customComponent.RoundTextField;
-import util.EnvironmentConfigure;
+import oneandall.EnvironmentConfigure;
 
 public class TaskHistoryPanel extends JDesktopPane {
 	

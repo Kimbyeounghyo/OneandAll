@@ -30,8 +30,8 @@ import customComponent.PinkLabel;
 import customComponent.PinkScroll;
 import customComponent.RoundTextArea;
 import customComponent.RoundTextField;
+import oneandall.LoginInfo;
 import util.CPTManager;
-import util.LoginInfo;
 
 public class ProjectHistoryPanel extends JPanel {
 	

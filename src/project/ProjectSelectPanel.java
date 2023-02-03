@@ -16,9 +16,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import customComponent.PinkButton;
+import oneandall.EnvironmentConfigure;
+import oneandall.LoginInfo;
 import util.CPTManager;
-import util.EnvironmentConfigure;
-import util.LoginInfo;
 
 public class ProjectSelectPanel extends JPanel {
 	

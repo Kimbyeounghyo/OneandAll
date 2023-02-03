@@ -13,6 +13,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import oneandall.Coworker;
+import oneandall.Project;
+import oneandall.Task;
+
 public class TempObjectWriter {
 
 	public static void invoke() throws IOException {

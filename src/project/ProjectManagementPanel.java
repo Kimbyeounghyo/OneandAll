@@ -25,8 +25,8 @@ import customComponent.PinkButton;
 import customComponent.PinkIconButton;
 import customComponent.PinkLabel;
 import customComponent.RoundTextField;
+import oneandall.LoginInfo;
 import util.CPTManager;
-import util.LoginInfo;
 
 public class ProjectManagementPanel extends JPanel {
 	

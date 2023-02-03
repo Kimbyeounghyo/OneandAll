@@ -13,7 +13,7 @@ public class Coworker implements Externalizable {
 	public String pwd; //비밀번호
 	public String name; //이름
 	public String grade; //직위(팀장, 부팀장, 팀원)
-	
+	//
 	public Coworker() {
 		// TODO Auto-generated constructor stub
 	}
@@ -61,7 +61,7 @@ public class Coworker implements Externalizable {
 
 	@Override
 	public String toString() {
-		return "-----" + tag + "-----" + "\n" + id + "\n" + pwd + "\n" + grade;
+		return "-----" + tag + "-----" + "\n" + id + "\n" + pwd + "\n" + name + "\n" + grade;
 	}
 	
 	

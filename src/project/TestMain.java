@@ -2,10 +2,10 @@ package project;
 
 import java.io.IOException;
 
+import oneandall.EnvironmentConfigure;
+import oneandall.TempObjectReader;
+import oneandall.TempObjectWriter;
 import util.CPTManager;
-import util.EnvironmentConfigure;
-import util.TempObjectReader;
-import util.TempObjectWriter;
 
 public class TestMain {
 

@@ -10,6 +10,8 @@ import java.awt.event.KeyEvent;
 import java.security.Identity;
 import java.security.PublicKey;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -22,11 +24,13 @@ import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 public class Sign_in extends JFrame{
+	
+	   JFrame frame;
       
        JComboBox<String> jComboBox; 
       JLabel nameLabel = new JLabel("이름 "); 
       JTextField nameText = new JTextField();
-   
+   //
       JLabel gradeLabel = new JLabel("등급 ");
       JPanel boxPanel = new JPanel();
       JLabel idLabel = new JLabel("아이디 "); 
@@ -40,6 +44,8 @@ public class Sign_in extends JFrame{
       Color color = new Color(255, 198, 218);         
       
       public Sign_in() {
+    	  
+    	  frame = this;
 
          this.setTitle("Sign in");
          this.setSize(380, 450);
@@ -107,6 +113,8 @@ public class Sign_in extends JFrame{
          
          setLocationRelativeTo(null);
          setVisible(true);
+         
+         
       
          
    }//Sign_in
@@ -140,12 +148,37 @@ public class Sign_in extends JFrame{
             
             @Override
             public void actionPerformed(ActionEvent e) {
-               getInfo();
+//               getInfo();
+               
+               if(CPTManager.cList != null) {
+            	   List<Coworker> cl = CPTManager.cList.stream().filter(c -> c.id.equals(idText.getText())).collect(Collectors.toList());
+            	   
+            	   for(int i=0; i<cl.size(); i++) {
+            		   System.out.println(cl.get(i));
+            	   }
+            	   
+            	   if(cl.size() > 0 ) {
+            		   JOptionPane.showMessageDialog(null, "중복된 아이디가 있습니다.");
+            		   return;
+            	   }
+               }
+               
+           
+               
                
                JOptionPane.showMessageDialog(null, "회원가입에 성공하셨습니다");
-               dispose();
                
-               new Login();
+               Coworker c = new Coworker(idText.getText(),passText.getText(), nameText.getText(), jComboBox.getSelectedItem().toString()
+            		   );
+               
+               if(CPTManager.cList==null) {
+            	   CPTManager.cList = new ArrayList<Coworker>();
+               }
+               CPTManager.cList.add(c);
+               frame.dispose();
+               
+               
+      
             }
          });
       }//join

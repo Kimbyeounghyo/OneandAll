@@ -10,6 +10,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -24,7 +26,7 @@ import javax.swing.SwingConstants;
 public class Login extends JFrame{	
 	
 	
-	
+	//
 	Login() {
 
 
@@ -78,10 +80,29 @@ public class Login extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 			String id = "Soldesk";
-			String pass = "1234";
 			
-			if(id.equals(txtID.getText()) && pass.equals(txtPass.getText())){
+		
+			
+			if (CPTManager.cList != null) {
+				 System.out.println(CPTManager.cList.size());
+			}else {
+				JOptionPane.showMessageDialog(null, "아이디가 일치하지 않습니다.");
+				return;
+			}
+			
+		
+			
+			List<Coworker> cl = CPTManager.cList.stream().filter(c -> c.id.equals(txtID.getText())).collect(Collectors.toList());
+			
+			if(cl.size()==0) {
+				JOptionPane.showMessageDialog(null, "아이디가 일치하지 않습니다.");
+			
+			}
+			
+			
+			if(cl.get(0).pwd.equals(txtPass.getText())){
 				JOptionPane.showMessageDialog(null, "로그인 성공");;
+				new OneandAll_MainScreen();
 			}else {
 				JOptionPane.showMessageDialog(null, "로그인 실패");;
 			}

@@ -21,8 +21,8 @@ import javax.swing.JPanel;
 import customComponent.PinkButton;
 import customComponent.PinkIconButton;
 import customComponent.PinkLabel;
+import oneandall.EnvironmentConfigure;
 import util.CPTManager;
-import util.EnvironmentConfigure;
 
 public class HistoryOptionPanel extends JPanel {
 	

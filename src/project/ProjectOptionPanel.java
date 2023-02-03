@@ -22,9 +22,9 @@ import javax.swing.JPanel;
 import customComponent.PinkButton;
 import customComponent.PinkIconButton;
 import customComponent.PinkLabel;
+import oneandall.EnvironmentConfigure;
+import oneandall.LoginInfo;
 import util.CPTManager;
-import util.EnvironmentConfigure;
-import util.LoginInfo;
 
 public class ProjectOptionPanel extends JPanel {
 	

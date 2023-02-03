@@ -38,7 +38,7 @@ public class Member_commute extends JFrame{
 	    	
 	    	  @Override
 				public void mousePressed(MouseEvent e) {
-					new OneandAll_Main();
+					new _____OneandAll_Main();
 					}
 	      });
 	    	  

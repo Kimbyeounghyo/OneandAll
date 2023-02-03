@@ -5,6 +5,8 @@ import java.awt.GridLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -42,7 +44,7 @@ public class OneandAll_MainScreen extends JFrame{
 	      home.addMouseListener(new MouseAdapter() {
 	    	  @Override
 				public void mousePressed(MouseEvent e) {
-					new OneandAll_Main();
+					new _____OneandAll_Main();
 					}
 			
 		});
@@ -143,6 +145,7 @@ public class OneandAll_MainScreen extends JFrame{
 	      
 	      setVisible(true);
 	      
+	      addWindowListener(new WindowListenerSave());
 	      
 
 

@@ -3,16 +3,17 @@ package oneandall;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import oneandall.Coworker;
+import oneandall.Project;
+
 public class LoginInfo {
 	//로그인 시에는 나중에 tag로 비교할 생각중
 	long currentTag;
-	
+	//
 	//수정 필요
 	public static Coworker getLoggedInfo() {
 		String id = "teamleaderkim";
 		String pwd = "aaa";
-		if(CPTManager.cList == null) 
-			return null;
 		List<Coworker> cl = CPTManager.cList.stream().filter(c -> c.id.equals(id) && c.pwd.equals(pwd)).collect(Collectors.toList());
 		
 		if(cl == null || cl.size() == 0) return null;

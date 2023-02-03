@@ -15,12 +15,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import project.Coworker;
 import project.Project;
 import project.Task;
 
-public class CPTManager {
+public class CPTManager implements Runnable{
 	
 	public static List<Project> pList;  //프로젝트들
 	public static List<Coworker> cList; //팀원들
@@ -90,8 +91,7 @@ public class CPTManager {
 		try {
 			long fileSize = Files.size(Paths.get(targetFile.getPath()));
 			if(fileSize == 0) {
-				System.out.println("새 파일을 생성했습니다 불러올 데이터가 없습니다");
-				return;
+				System.out.println("불러올 데이터가 없습니다");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -172,7 +172,7 @@ public class CPTManager {
 		} else {
 			targetFile = files[files.length - 1]; //날짜별로 파일을 저장했으므로, 가장 최근 파일을 불러온다
 		}
-		
+		System.out.println(targetFile.getName());
 		return targetFile;
 	}
 	
@@ -189,35 +189,118 @@ public class CPTManager {
 			//오늘자 파일이 이미 있으면
 			if(targetFile.getName().indexOf(sdf.format(now)) > -1) {
 				String[] currentName = targetFile.getName().split("\\.");
-				newFileName = currentName[0] + "z";
+				newFileName = currentName[0] + "z.out";
 			}else {
-				newFileName = targetFile.getName();
+				newFileName = sdf.format(now) + ".out";
 			}			
 		}else {
-			newFileName = sdf.format(now);
+			newFileName = sdf.format(now) + ".out";
 		}
 		
 		return newFileName;
 	}
 	
-	public static void saveProjects() throws IOException {
-		String filePath = "src\\oaadb\\project\\";
-		File f = new File(filePath + getNewFileNameFromPackage(filePath));
-		
-		Iterator<Project> pir = pList.iterator();
+	public static void save(String path) throws IOException {
+		File f = new File(path + getNewFileNameFromPackage(path));
 		FileOutputStream fos = new FileOutputStream(f);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		while(pir.hasNext()) {
-			oos.writeObject(pir.next());
+		
+		Iterator<Project> pir = null;
+		Iterator<Coworker> cir = null;
+		Iterator<Task> tir = null;		
+		
+		switch (path.split("\\\\")[2]) {
+		case "coworker":
+			if(cList == null || cList.size() == 0) break;
+			cir = cList.iterator();
+			while(cir.hasNext()) {
+				oos.writeObject(cir.next());
+			}
+			break;
+		case "project":
+			if(pList == null || pList.size() == 0) break;
+			pir = pList.iterator();
+			while(pir.hasNext()) {
+				oos.writeObject(pir.next());
+			}
+			break;
+		case "task":
+			if(tList == null || tList.size() == 0) break;
+			tir = tList.iterator();
+			while(tir.hasNext()) {
+				oos.writeObject(tir.next());
+			}
+			break;
 		}
 	}
 	
-	public static void getTasksFromProject(Project p) {
-		
+	public static void saveAll() {
+		try {
+			CPTManager.save("src\\oaadb\\project\\");
+			CPTManager.save("src\\oaadb\\coworker\\");
+			CPTManager.save("src\\oaadb\\task\\");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public static void getPeopleNotJoin(Project p) {
+	public static List<Task> getTasksFromProject(Project p) {
+		
+		if(CPTManager.tList == null) return null;
+		
+		List<Task> tl = CPTManager.tList.stream()
+				.filter(t -> t.projectName.equals(p.name + "@" + p.projectId))
+				.collect(Collectors.toList());
+		
+		if(tl.size() == 0) return null;
+		
+		return tl;
 		
 	}
 
+	public static List<Coworker> getTeamLeaders() {
+		List<Coworker> cl = CPTManager.cList.stream()
+				.filter(c -> c.grade.equals("팀장"))
+				.collect(Collectors.toList());
+		
+		if(cl.size() == 0) return null;
+		
+		return cl;
+	}
+	
+	public static List<Task> findTaskByPriorId(long id) {
+		List<Task> tl = new ArrayList<Task>();
+		if(CPTManager.tList == null || CPTManager.tList.size() == 0) return null;
+		
+		while(id != -1) {
+			final long fid = id;
+			List<Task> tempTl = CPTManager.tList.stream()
+					.filter(t -> t.taskId == fid)
+					.collect(Collectors.toList());
+			if(tempTl == null || tempTl.size() == 0) {
+				id = -1; break;
+			}
+			Task t = tempTl.get(0);
+			if(t.priorTaskIds == 0) id = -1;
+			else id = t.priorTaskIds;
+			tl.add(t);
+		}
+		
+		return tl;
+	}
+	
+	public static Task findTaskById(long id) {
+		if(CPTManager.tList == null || CPTManager.tList.size() == 0) return null;
+		
+		List<Task> tl = CPTManager.tList.stream()
+				.filter(t -> t.taskId == id)
+				.collect(Collectors.toList());
+		
+		return tl.get(0);
+	}
+
+	@Override
+	public void run() {
+		saveAll();
+	}
 }

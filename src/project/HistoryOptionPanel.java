@@ -6,16 +6,22 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import customComponent.PinkButton;
 import customComponent.PinkIconButton;
 import customComponent.PinkLabel;
+import util.CPTManager;
 import util.EnvironmentConfigure;
 
 public class HistoryOptionPanel extends JPanel {
@@ -23,6 +29,8 @@ public class HistoryOptionPanel extends JPanel {
 	JButton compareTask;
 	JButton taskFilter;
 	JLabel compareTaskLabel;
+	
+	int flag = 11;
 	
 	public HistoryOptionPanel() {
 //		setOpaque(false);
@@ -44,6 +52,25 @@ public class HistoryOptionPanel extends JPanel {
 		
 		taskFilter = new PinkIconButton(new File("src\\images\\sortTaskButton.png"));
 		taskFilter.setPreferredSize(new Dimension(100, 90));
+		taskFilter.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String funcName = taskFilter.getText();
+				
+				ProjectHistoryPanel php = ((ProjectHistoryPanel)getParent());
+				
+				if(funcName.equals("정렬(마감순)")) {
+					taskFilter.setText("정렬(생성순)");
+					flag = flag / 10 * 10 + 1;
+				}else if(funcName.equals("정렬(생성순)")){
+					taskFilter.setText("정렬(마감순)");
+					flag = flag / 10 * 10 + 2;
+				}
+				
+				refreshTask(php);
+			}
+		});
 		optionBtns.add(taskFilter);
 		
 		JPanel optionExp = new JPanel();
@@ -54,7 +81,7 @@ public class HistoryOptionPanel extends JPanel {
 		compareTaskLabel.setPreferredSize(new Dimension(150, 90));
 		optionExp.add(compareTaskLabel);
 		
-		JLabel tfLabel = new PinkLabel("정렬순서 변경");
+		JLabel tfLabel = new PinkLabel("정렬(마감순)");
 		tfLabel.setPreferredSize(new Dimension(150, 90));
 		optionExp.add(tfLabel);
 		
@@ -70,6 +97,28 @@ public class HistoryOptionPanel extends JPanel {
 	}
 	public JLabel getCompareLabel() {
 		return compareTaskLabel;
+	}
+	
+	public void refreshTask(ProjectHistoryPanel php) {
+		//System.out.println("flag >>> : " + flag);
+		List<Task> ctl = CPTManager.getTasksFromProject(php.currentProject);
+		if(ctl == null) {
+			JOptionPane.showMessageDialog(null, "업무정보가 없습니다");
+			return;
+		}
+		
+		switch(flag % 10) {
+		case 1:
+			ctl = ctl.stream()
+				.sorted(Comparator.comparing(Task::getEndDate).reversed())
+				.collect(Collectors.toList());
+		case 2:
+			ctl = ctl.stream()
+				.sorted(Comparator.comparing(Task::getStartDate))
+				.collect(Collectors.toList());	
+		}
+		
+		php.setTaskListToShow(ctl);
 	}
 	
 	public static void main(String[] args) {

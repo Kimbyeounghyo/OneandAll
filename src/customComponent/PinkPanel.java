@@ -34,7 +34,7 @@ public class PinkPanel extends JPanel {
 		
 		FontMetrics fontMetrics = g2.getFontMetrics();
 		
-		g2.dispose();
+//		g2.dispose();
 		super.paintComponent(g);
 	}
 

@@ -8,6 +8,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -44,6 +46,11 @@ public class TaskHistoryPanel extends JDesktopPane {
 	JLabel fromto;
 	
 	JPanel additionalBounds;
+	List<Task> tasks;
+	
+	JTextField performerName;
+	JTextField performWhat;
+	long currentTaskId;
 	
 	public TaskHistoryPanel() {
 		
@@ -74,12 +81,14 @@ public class TaskHistoryPanel extends JDesktopPane {
 		deadlinePanel.setBackground(Color.BLACK);
 		from = new RoundTextField();
 		from.setPreferredSize(new Dimension(272, 30));
+		from.setEnabled(false);
 		deadlinePanel.add(from);
 		fromto = new PinkLabel("~");
 		fromto.setPreferredSize(new Dimension(101, 30));
 		deadlinePanel.add(fromto);
 		to = new RoundTextField();
 		to.setPreferredSize(new Dimension(272, 30));
+		to.setEnabled(false);
 		deadlinePanel.add(to);
 		shortPanel.add(deadlinePanel);
 		
@@ -87,6 +96,7 @@ public class TaskHistoryPanel extends JDesktopPane {
 		JLabel performerLabel = new PinkLabel("할사람");
 		shortPanel.add(performerLabel);
 		JTextField performerName = new RoundTextField();
+		performerName.setEditable(false);
 		shortPanel.add(performerName);
 		JLabel performContent = new PinkLabel("할내용");
 		shortPanel.add(performContent);
@@ -94,6 +104,7 @@ public class TaskHistoryPanel extends JDesktopPane {
 		task.add(shortPanel);//, BorderLayout.NORTH);
 		
 		JTextArea performWhat = new RoundTextArea();
+		performWhat.setEnabled(false);
 		JScrollPane scroll = new PinkScroll(performWhat);
 		task.add(scroll);//, BorderLayout.CENTER);
 		
@@ -202,6 +213,21 @@ public class TaskHistoryPanel extends JDesktopPane {
 		taskParent.add(task);
 		taskParent.add(nextBtn);
 		tPanel.remove(cPanel);
+	}
+	
+	public void setTasks(List<Task> tl) {
+		tasks = tl;
+		if(tasks != null)
+			showTask(tasks.get(0));
+	}
+	
+	public void showTask(Task t) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		to.setText(sdf.format(t.startDate));
+		from.setText(sdf.format(t.endDate));
+		performerName.setText(t.worker.name);
+		performWhat.setText(t.content);
+		currentTaskId = t.taskId;
 	}
 	
 	public static void main(String[] args) {

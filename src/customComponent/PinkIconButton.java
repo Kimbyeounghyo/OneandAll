@@ -81,5 +81,9 @@ public class PinkIconButton extends JButton {
 		
 		super.paintComponent(g);
 	}
+	
+	public File getImageFile() {
+		return imageFile;
+	}
 
 }

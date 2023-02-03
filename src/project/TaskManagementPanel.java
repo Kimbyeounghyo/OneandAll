@@ -12,6 +12,9 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -26,6 +29,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import java.util.Date;
 import customComponent.PinkButton;
 import customComponent.PinkLabel;
 import customComponent.PinkRoundButton;
@@ -41,6 +45,14 @@ public class TaskManagementPanel extends JDesktopPane {
 	JButton addTask;
 	JButton showPriorTask;
 	Coworker performer;
+	List<Task> tasks;
+	
+	JTextField to;
+	JTextField from;
+	JTextField performerName;
+	JTextArea performWhat;
+	
+	long currentTaskId;
 	
 	public TaskManagementPanel() {
 		
@@ -68,13 +80,13 @@ public class TaskManagementPanel extends JDesktopPane {
 		shortPanel.add(deadlineLabel);
 		JPanel deadlinePanel = new JPanel(new FlowLayout());
 		deadlinePanel.setBackground(Color.BLACK);
-		JTextField from = new RoundTextField();
+		from = new RoundTextField();
 		from.setPreferredSize(new Dimension(272, 30));
 		deadlinePanel.add(from);
 		JLabel fromto = new PinkLabel("~");
 		fromto.setPreferredSize(new Dimension(101, 30));
 		deadlinePanel.add(fromto);
-		JTextField to = new RoundTextField();
+		to = new RoundTextField();
 		to.setPreferredSize(new Dimension(272, 30));
 		deadlinePanel.add(to);
 		shortPanel.add(deadlinePanel);
@@ -82,7 +94,7 @@ public class TaskManagementPanel extends JDesktopPane {
 		
 		JLabel performerLabel = new PinkLabel("할사람");
 		shortPanel.add(performerLabel);
-		JTextField performerName = new RoundTextField();
+		performerName = new RoundTextField();
 		performerName.setAlignmentX(CENTER_ALIGNMENT);
 		shortPanel.add(performerName);
 		JLabel performContent = new PinkLabel("할내용");
@@ -90,7 +102,7 @@ public class TaskManagementPanel extends JDesktopPane {
 		
 		taskContentPanel.add(shortPanel);//, BorderLayout.NORTH);
 		
-		JTextArea performWhat = new RoundTextArea();
+		performWhat = new RoundTextArea();
 		JScrollPane scroll = new PinkScroll(performWhat);
 		taskContentPanel.add(scroll);//, BorderLayout.CENTER);
 		
@@ -118,21 +130,43 @@ public class TaskManagementPanel extends JDesktopPane {
 			public void actionPerformed(ActionEvent e) {
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				java.util.Date now = new java.util.Date();
 				Task newTask = new Task();
 				newTask.projectName = ((ProjectManagementPanel)getParent()).currentProject.name;
 				try {
 					newTask.startDate = sdf.parse(from.getText());
 					newTask.endDate = sdf.parse(to.getText());
 				} catch (ParseException e1) {
+					JOptionPane.showMessageDialog(null, "날짜형식을 yyyy-mm-dd 로 설정해주세요");
 					newTask.startDate = null;
 					newTask.endDate = null;
+					return;
+				}
+				
+				if(newTask.endDate.compareTo(now) < 0){
+					JOptionPane.showMessageDialog(null, "오늘보다 일찍 마감일을 설정할 수 없어요");
+					return;
+				}
+				
+				if(performer == null) {
+					JOptionPane.showMessageDialog(null, "누가 할지 모르겠어요");
+					return;
+				}
+				if(performWhat.getText().equals("")) {
+					JOptionPane.showMessageDialog(null, "업무 내용을 입력해주세요");
+					return;
 				}
 				newTask.worker = performer;
 				newTask.content = performWhat.getText();
 				
+				
+				if(CPTManager.tList == null) {
+					CPTManager.tList = new ArrayList<Task>();
+				}
+				
 				CPTManager.tList.add(newTask);
 				
-				JOptionPane.showMessageDialog(null, "해당 업무를 " + performerName + "에게 시켰어요");
+				JOptionPane.showMessageDialog(null, "해당 업무를 " + performerName.getText() + "에게 시켰어요");
 			}
 		});
 		additionalBtns.add(addTask);
@@ -140,6 +174,27 @@ public class TaskManagementPanel extends JDesktopPane {
 		JButton updateTaskBtn = new PinkRoundIconButton(new File("src\\images\\updateTaskButton.png"));
 		updateTaskBtn.setToolTipText("업무 수정 버튼");
 		updateTaskBtn.setPreferredSize(new Dimension(30, 30));
+		updateTaskBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				Task aTask = CPTManager.findTaskById(currentTaskId);
+				if(aTask == null) JOptionPane.showMessageDialog(null, "현재 선택된 업무가 없습니다");
+				aTask.projectName = ((ProjectManagementPanel)getParent()).currentProject.name;
+				try {
+					aTask.startDate = sdf.parse(from.getText());
+					aTask.endDate = sdf.parse(to.getText());
+				} catch (ParseException e1) {
+					aTask.startDate = null;
+					aTask.endDate = null;
+				}
+				aTask.worker = performer;
+				aTask.content = performWhat.getText();
+				
+				JOptionPane.showMessageDialog(null, "해당 업무를 수정했어요");
+			}
+		});
 		additionalBtns.add(updateTaskBtn);//, BorderLayout.SOUTH);
 		
 		JButton copyBtn = new PinkRoundIconButton(new File("src\\images\\pinkLinkButton.png"));
@@ -163,6 +218,8 @@ public class TaskManagementPanel extends JDesktopPane {
 				CPTManager.clipBoard = new Task();
 				CPTManager.clipBoard.projectName = ((ProjectManagementPanel)getParent()).currentProject.name;
 				try {
+					System.out.println(from.getText());
+					System.out.println(to.getText());
 					CPTManager.clipBoard.startDate = sdf.parse(from.getText());
 					CPTManager.clipBoard.endDate = sdf.parse(to.getText());
 				} catch (ParseException e1) {
@@ -179,11 +236,43 @@ public class TaskManagementPanel extends JDesktopPane {
 		JButton downCopiedButton = new PinkRoundIconButton(new File("src\\images\\downCopiedButton.png"));
 		downCopiedButton.setToolTipText("복사정보 붙여넣기 버튼");
 		downCopiedButton.setPreferredSize(new Dimension(30, 30));
+		downCopiedButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(CPTManager.clipBoard == null || CPTManager.clipBoard.projectName.equals("")) {
+					JOptionPane.showMessageDialog(null, "복사한 정보가 없습니다");
+					return;
+				}
+				showTask(CPTManager.clipBoard);
+			}
+		});
 		additionalBtns.add(downCopiedButton);
 		
 		showPriorTask = new PinkRoundIconButton(new File("src\\images\\priorButton.png"));
 		showPriorTask.setToolTipText("선행업무 조회버튼");
 		showPriorTask.setPreferredSize(new Dimension(30, 30));
+		showPriorTask.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				List<Task> ctl = CPTManager.getTasksFromProject(((ProjectManagementPanel)getParent()).currentProject);
+				if(ctl == null) {
+					JOptionPane.showMessageDialog(null, "업무정보가 없습니다"); return;
+				}
+				ctl = CPTManager.findTaskByPriorId(currentTaskId);
+				if(ctl == null) {
+					JOptionPane.showMessageDialog(null, "선행정보가 없습니다"); return;
+				}
+				
+				String contentTotal = "";
+				for(Task t : ctl) {
+					contentTotal += t.content;
+				}
+				
+				JOptionPane.showMessageDialog(null, "선행업무 정보입니다\n" + contentTotal);
+			}
+		});
 		additionalBtns.add(showPriorTask);
 		
 		add(additionalBtns, JDesktopPane.POPUP_LAYER);
@@ -195,6 +284,22 @@ public class TaskManagementPanel extends JDesktopPane {
 	}
 	public JButton getLinkedButton() {
 		return showPriorTask;
+	}
+	
+	public void setTasks(List<Task> tl) {
+		tasks = tl;
+		if(tasks != null)
+			showTask(tasks.get(0));
+	}
+	
+	public void showTask(Task t) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		to.setText(sdf.format(t.startDate));
+		from.setText(sdf.format(t.endDate));
+		if(t.worker != null)
+			performerName.setText(t.worker.name);
+		performWhat.setText(t.content);
+		currentTaskId = t.taskId;
 	}
 	
 	public static void main(String[] args) {

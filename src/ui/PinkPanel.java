@@ -14,12 +14,12 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class PinkPanel extends JPanel {
 	
-	Color buttonColor;
+	Color panelColor;
 
 	public PinkPanel() {
 		setOpaque(false);
 		
-		buttonColor = new Color(255, 198, 218);
+		panelColor = new Color(255, 198, 218, 255);
 	}
 
 	@Override
@@ -29,10 +29,8 @@ public class PinkPanel extends JPanel {
 		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 		
 		Dimension d = getSize();
-		//System.out.println(getText() + ", size : "+ getSize());
+		g2.setColor(panelColor);
 		g2.fillRoundRect(0, 0, (int)d.getWidth(), (int)d.getHeight(), 10, 10);
-		
-		FontMetrics fontMetrics = g2.getFontMetrics();
 		
 		g2.dispose();
 		super.paintComponent(g);

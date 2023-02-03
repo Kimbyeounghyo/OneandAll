@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import customComponent.PinkButton;
 import home.MenuPanel;
+import util.WindowListenerSave;
 import util.CPTManager;
 import util.EnvironmentConfigure;
 
@@ -54,6 +55,7 @@ public class ProjectManagementFrame extends JFrame {
 		
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //x버튼
+		addWindowListener(new WindowListenerSave());
 	}
 
 }

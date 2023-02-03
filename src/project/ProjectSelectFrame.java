@@ -14,6 +14,7 @@ import customComponent.PinkButton;
 import customComponent.PinkLabel;
 import customComponent.PinkScroll;
 import home.MenuPanel;
+import util.WindowListenerSave;
 import util.CPTManager;
 import util.EnvironmentConfigure;
 import util.LoginInfo;
@@ -98,7 +99,8 @@ public class ProjectSelectFrame extends JFrame {
 		//----------------선택화면 Panel 끝---------------------------------------------------
 		
 		setVisible(true);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); //x버튼
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		addWindowListener(new WindowListenerSave());
 	}
 
 }

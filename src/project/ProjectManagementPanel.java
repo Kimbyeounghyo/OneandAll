@@ -32,7 +32,7 @@ public class ProjectManagementPanel extends JPanel {
 	
 	JPanel projectInfo;
 	JPanel optionPanel;
-	JDesktopPane taskManagement;
+	public JDesktopPane taskManagement;
 	public Project currentProject;
 	
 	public ProjectManagementPanel(Project p) {
@@ -123,6 +123,10 @@ public class ProjectManagementPanel extends JPanel {
 	}
 	public JDesktopPane getTaskManagementPanel() {
 		return taskManagement;
+	}
+	
+	public void setTaskListToShow(List<Task> tl) {
+		((TaskManagementPanel)taskManagement).setTasks(tl);
 	}
 
 }

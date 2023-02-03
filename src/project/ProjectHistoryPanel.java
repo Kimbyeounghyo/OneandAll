@@ -61,6 +61,7 @@ public class ProjectHistoryPanel extends JPanel {
 		
 		JTextField startDate = new RoundTextField();
 		startDate.setPreferredSize(new Dimension(150, 50));
+		startDate.setEnabled(false);
 		piDeadLine.add(startDate);
 		startDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(currentProject.startDate));
 		
@@ -70,6 +71,7 @@ public class ProjectHistoryPanel extends JPanel {
 		
 		JTextField endDate = new RoundTextField();
 		endDate.setPreferredSize(new Dimension(150, 50));
+		endDate.setEnabled(false);
 		piDeadLine.add(endDate);
 		endDate.setText(new SimpleDateFormat("yyyy-MM-dd").format(currentProject.endDate));
 		
@@ -87,20 +89,21 @@ public class ProjectHistoryPanel extends JPanel {
 		
 		JTextField handPersonName = new RoundTextField();
 		handPersonName.setPreferredSize(new Dimension(100, 50));
+		handPersonName.setEditable(false);
 		piHandOver.add(handPersonName);
 		handPersonName.setText(LoginInfo.getLoggedInfo().id);
 		
-		JButton personFindBtn = new PinkIconButton(new File("src\\images\\pinkReadingGlass.png"));
-		personFindBtn.setPreferredSize(new Dimension(50, 50));
-		piHandOver.add(personFindBtn);
+//		JButton personFindBtn = new PinkIconButton(new File("src\\images\\pinkReadingGlass.png"));
+//		personFindBtn.setPreferredSize(new Dimension(50, 50));
+//		piHandOver.add(personFindBtn);
 		
 		projectInfo.add(piHandOver);
 		//==============
 		
 		//프로젝트 정보 수정=
-		JButton updateBtn = new PinkButton("수정하기√");
-		updateBtn.setPreferredSize(new Dimension(200, 50));
-		projectInfo.add(updateBtn);
+//		JButton updateBtn = new PinkButton("수정하기√");
+//		updateBtn.setPreferredSize(new Dimension(200, 50));
+//		projectInfo.add(updateBtn);
 		//==============
 		
 		add(projectInfo, BorderLayout.NORTH);
@@ -138,6 +141,10 @@ public class ProjectHistoryPanel extends JPanel {
 		add(optionPanel, BorderLayout.EAST);
 		
 		//=========================================================================
+	}
+	
+	public void setTaskListToShow(List<Task> tl) {
+		((TaskHistoryPanel)taskManagement).setTasks(tl);
 	}
 	
 	public JPanel getProjectInfoPanel() {

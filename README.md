@@ -81,7 +81,7 @@
 			}
 		}
 		
-### 파일로 저장 -> 파일로드 -> 화면에 
+### 파일로 저장 -> 파일로드하면 화면에 일정이 출력 /바로 화면에 구현 X
 ![image](https://user-images.githubusercontent.com/96603612/216769479-39c094d7-1840-499f-b2ff-77a7d643a73e.png)
 ![image](https://user-images.githubusercontent.com/96603612/216769321-c631ccfe-2985-4151-9c7c-a4dd65f2b46e.png)		
 		

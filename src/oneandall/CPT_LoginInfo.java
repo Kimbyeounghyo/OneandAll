@@ -10,11 +10,10 @@ import oneandall.CPT_Coworker;
 import oneandall.P_Project;
 
 public class CPT_LoginInfo {
-	//로그인 유저 이름 @ tag로 비교하기 위해 저장해놓는다
+	//로그인 유저를 저장해놓는다
 	public static CPT_Coworker loginUser;
 
 	public static List<P_Project> getCurrentProjects(){
-		
 		if(loginUser == null || CPT_CPTManager.pList == null) return null;
 		
 		System.out.println(loginUser.tag);

@@ -143,7 +143,7 @@ public class CPT_CPTManager implements Runnable{
 	
 	//oaadb의 하위 모든 패키지 최근 파일로부터 데이터를 list에 불러오는 메소드
 	public static void getFromOaaDB() {
-		//getFromOaaDB("Project");
+		getFromOaaDB("Project");
 		getFromOaaDB("Coworker");
 		//getFromOaaDB("Task");
 	}

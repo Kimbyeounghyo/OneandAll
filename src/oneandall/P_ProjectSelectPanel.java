@@ -53,12 +53,17 @@ public class P_ProjectSelectPanel extends JPanel {
 						System.out.println("history selected");
 						P_EnvironmentConfigure.createFrame(new P_ProjectHistoryFrame(p));
 						break;
+					case "projectArrange":
+						System.out.println("arrange selected");
+						P_EnvironmentConfigure.createFrame(new P_Projectarrangeexample2());
+						break;
 					}
 					
 					P_ProjectSelectFrame.frame.dispose();
 				}
 			});
 			
+			btns[i].setPreferredSize(new Dimension(P_EnvironmentConfigure.PROJECT_WIDTH, 200));
 			add(btns[i]);
 		}
 	}

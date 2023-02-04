@@ -36,7 +36,7 @@ public class P_ProjectSelectFrame extends JFrame {
 		
 		//----------------메뉴 Panel(로그인, 팀원, 프로젝트, 스케줄)-------------------------------
 		menu = new _pMenu();
-		  menu.setBounds(0, 0, 1200, 50);
+		  menu.setBounds(0, 0, P_EnvironmentConfigure.PROJECT_WIDTH, 50);
 	      menu.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 		add(menu);
 		//----------------메뉴 Panel 끝-----------------------------------------------------
@@ -91,27 +91,21 @@ public class P_ProjectSelectFrame extends JFrame {
 		}
 		
 		content = new P_ProjectSelectPanel(targetFrame);
-		content.setPreferredSize(new Dimension(1200, 200 * CPT_LoginInfo.getCurrentProjects().size()));
-//		content.setPreferredSize(new Dimension(1200, 200));
-		
-		content.setBounds(0, 
-				P_EnvironmentConfigure.PROJECT_HEIGHT / 10, 
-				P_EnvironmentConfigure.PROJECT_WIDTH, 
-				P_EnvironmentConfigure.PROJECT_HEIGHT * 9 / 10 - 50);
-		content.setBorder(BorderFactory.createEmptyBorder(5,1,5,1));
+		content.setPreferredSize(new Dimension(P_EnvironmentConfigure.PROJECT_WIDTH - 10, 200 * CPT_LoginInfo.getCurrentProjects().size()));
 		content.setBackground(new Color(0, 0, 0, 255));
+		content.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
 		JScrollPane scroll = new PinkScroll(content);
 		scroll.setBounds(0, 
 				P_EnvironmentConfigure.PROJECT_HEIGHT / 10, 
 				P_EnvironmentConfigure.PROJECT_WIDTH, 
-				P_EnvironmentConfigure.PROJECT_HEIGHT * 9 / 10 - 50);
+				Math.min(200 * CPT_LoginInfo.getCurrentProjects().size(), P_EnvironmentConfigure.PROJECT_HEIGHT * 9 / 10 - 50));
 		
-		scroll.setBorder(BorderFactory.createEmptyBorder());
+		scroll.setBorder(BorderFactory.createEmptyBorder(5, 10, 5, 10));
+		scroll.setBackground(new Color(0, 0, 0, 255));
 		getContentPane().add(scroll);
 		
 		JButton realtimeChat = new PinkButton("실시간 채팅");
-		realtimeChat.setOpaque(false);
-		realtimeChat.setBounds(5, content.getHeight() + 70, P_EnvironmentConfigure.PROJECT_WIDTH - 10, 30);
+		realtimeChat.setBounds(5, P_EnvironmentConfigure.PROJECT_HEIGHT * 9 / 10 + 10, P_EnvironmentConfigure.PROJECT_WIDTH - 10, 30);
 		add(realtimeChat);
 
 		//----------------선택화면 Panel 끝---------------------------------------------------

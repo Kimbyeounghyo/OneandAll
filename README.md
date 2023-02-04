@@ -6,7 +6,8 @@
 1. 파라미터(매개변수)로 이름을 넣으면 해당 이름에 해당하는 파일을 불러오는 메소드
 2. 파일내에 ㅁ월 ㅁ일 할일 이란 글이 보이면 일자와 할일을 불러와 화면에 띄운다.
 3. 일정 두개까지 겹치지 않고 등록 가능<br>
-	public void personalSch(String name) {//name = 파일 명
+		
+		public void personalSch(String name) {//name = 파일 명
 		
 		try {
 			Charset charset = Charset.forName("UTF-8");

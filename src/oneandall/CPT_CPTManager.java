@@ -8,8 +8,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.channels.FileChannel;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -84,17 +86,15 @@ public class CPT_CPTManager implements Runnable{
 	public static void getFromOaaDB(String objectName) {
 		
 		//특정 패키지의 경로
-		String filePath = "src\\oaadb\\" + objectName.toLowerCase() + "\\";
-		File targetFile = getFileFromPackage(filePath);
+		String filePath = "src" + File.separator + "oaadb" + File.separator + objectName.toLowerCase() + File.separator;
+		File targetFile = null;
 		
 		//파일의 크기가 0이면 데이터가 없어 파일을 새로 생성한 것이므로 아무것도 일어나지 않는다.
-		try {
-			long fileSize = Files.size(Paths.get(targetFile.getPath()));
-			if(fileSize == 0) {
-				System.out.println("불러올 데이터가 없습니다");
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
+		targetFile = new File(getFileNameFromPackage(filePath));
+		System.out.println(targetFile.getAbsolutePath());
+		if(!targetFile.exists()) {
+			System.out.println("불러올 데이터가 없습니다");
+			return;
 		}
 		
 		//List 초기화
@@ -143,37 +143,27 @@ public class CPT_CPTManager implements Runnable{
 	
 	//oaadb의 하위 모든 패키지 최근 파일로부터 데이터를 list에 불러오는 메소드
 	public static void getFromOaaDB() {
-		getFromOaaDB("Project");
+		//getFromOaaDB("Project");
 		getFromOaaDB("Coworker");
 		//getFromOaaDB("Task");
 	}
 	
 	//oaadb 패키지 하위 파일을 불러오는 메소드
 	//path : 패키지 경로(파일은 포함하면 안된다)
-	private static File getFileFromPackage(String path) {
+	private static String getFileNameFromPackage(String path) {
 		
 		Date now = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
 		
-		File targetFile = null;
 		File file = new File(path);
 		//가장 최근에 저장한 파일을 불러온다
 		File[] files = file.listFiles();
 		if(files.length == 0) {
-			File newFile = new File(path + sdf.format(now));
-			
-			try {
-				newFile.createNewFile();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			
-			targetFile = newFile;
+			return path + sdf.format(now) + ".out";
 		} else {
-			targetFile = files[files.length - 1]; //날짜별로 파일을 저장했으므로, 가장 최근 파일을 불러온다
+			//날짜별로 파일을 저장했으므로, 가장 최근 파일을 불러온다
+			return files[files.length - 1].getAbsolutePath();
 		}
-		System.out.println(targetFile.getName());
-		return targetFile;
 	}
 	
 	public static String getNewFileNameFromPackage(String path) {
@@ -204,31 +194,38 @@ public class CPT_CPTManager implements Runnable{
 	public static void save(String path) throws IOException {
 		File f = new File(path + getNewFileNameFromPackage(path));
 		
-		System.out.println(f.getName());
-		FileOutputStream fos = new FileOutputStream(f);
+		FileOutputStream fos = new FileOutputStream(f, false);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		
 		Iterator<P_Project> pir = null;
 		Iterator<CPT_Coworker> cir = null;
 		Iterator<P_Task> tir = null;		
-		
-		switch (path.split("\\\\")[2]) {
+		switch (path.split("\\" + File.separator)[2]) {
 		case "coworker":
-			if(cList == null || cList.size() == 0) break;
+			if(cList == null || cList.size() == 0) {
+				FileChannel.open(Paths.get(f.getAbsolutePath()), StandardOpenOption.WRITE).truncate(0).close();
+				break;
+			}
 			cir = cList.iterator();
 			while(cir.hasNext()) {
 				oos.writeObject(cir.next());
 			}
 			break;
 		case "project":
-			if(pList == null || pList.size() == 0) break;
+			if(pList == null || pList.size() == 0) {
+				FileChannel.open(Paths.get(f.getAbsolutePath()), StandardOpenOption.WRITE).truncate(0).close();
+				break;
+			}
 			pir = pList.iterator();
 			while(pir.hasNext()) {
 				oos.writeObject(pir.next());
 			}
 			break;
 		case "task":
-			if(tList == null || tList.size() == 0) break;
+			if(tList == null || tList.size() == 0) {
+				FileChannel.open(Paths.get(f.getAbsolutePath()), StandardOpenOption.WRITE).truncate(0).close();
+				break;
+			}
 			tir = tList.iterator();
 			while(tir.hasNext()) {
 				oos.writeObject(tir.next());
@@ -239,10 +236,9 @@ public class CPT_CPTManager implements Runnable{
 	
 	public static void saveAll() {
 		try {
-			System.out.println("???x");
-			//CPTManager.save("src\\oaadb\\project\\");
-			CPT_CPTManager.save("./Desktop/OneandAll/src/oaadb/coworker");
-			//CPTManager.save("src\\oaadb\\task\\";
+//			CPT_CPTManager.save("src" + File.separator + "oaadb" + File.separator + "project" + File.separator);
+			CPT_CPTManager.save("src" + File.separator + "oaadb" + File.separator + "coworker" + File.separator);
+//			CPT_CPTManager.save("src" + File.separator + "oaadb" + File.separator + "task" + File.separator);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

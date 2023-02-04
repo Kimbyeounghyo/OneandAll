@@ -29,7 +29,7 @@ public class _Login extends JFrame{
 	//
 	_Login() {
 
-
+		CPT_CPTManager.getFromOaaDB();
 		
 		JPanel LoginP = new JPanel();
 		
@@ -137,17 +137,17 @@ public class _Login extends JFrame{
 		add(LoginP);
 		
 		
-		 addWindowListener(new WindowAdapter() {
-
-				@Override
-				public void windowClosing(WindowEvent e) {
-					setDefaultCloseOperation(HIDE_ON_CLOSE);
-					((JFrame)e.getSource()).dispose(); //getsource는 obj이므로 JFramm으로 다운캐스팅 idspose가 끄는거
-					System.out.println(e.getSource().toString());
-			
-				}
-		    	  
-			});
+//		 addWindowListener(new WindowAdapter() {
+//
+//				@Override
+//				public void windowClosing(WindowEvent e) {
+//					setDefaultCloseOperation(HIDE_ON_CLOSE);
+//					((JFrame)e.getSource()).dispose(); //getsource는 obj이므로 JFramm으로 다운캐스팅 idspose가 끄는거
+//					System.out.println(e.getSource().toString());
+//			
+//				}
+//		    	  
+//			});
 		      
 		 
 		

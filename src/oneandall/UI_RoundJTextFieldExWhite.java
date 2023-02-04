@@ -15,17 +15,20 @@ public class UI_RoundJTextFieldExWhite extends JTextField{
 	
 	public UI_RoundJTextFieldExWhite() {
         super();
-        decorate();
+        setBorder(BorderFactory.createEmptyBorder());
+        setOpaque(false);
         setHorizontalAlignment(JTextField.CENTER);
         
 	}
     public UI_RoundJTextFieldExWhite(String string) {
-		setText(string);
-        setHorizontalAlignment(JTextField.CENTER);
-	}
-	protected void decorate() {
     	setBorder(BorderFactory.createEmptyBorder());
         setOpaque(false);
+        setHorizontalAlignment(JTextField.CENTER);
+        setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+		setText(string);
+	}
+	protected void decorate() {
+    	
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -35,16 +38,6 @@ public class UI_RoundJTextFieldExWhite extends JTextField{
         Graphics2D graphics = (Graphics2D) g;
 
         graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-
-//        if (getModel().isArmed()) {
-//            graphics.setColor(getBackground().darker());
-//        } else if (getModel().isRollover()) {
-//            graphics.setColor(getBackground().brighter());
-//        } else {
-//            graphics.setColor(getBackground());
-//        }
-
-        graphics.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
         
         FontMetrics fontMetrics = graphics.getFontMetrics();
         Rectangle stringBounds = fontMetrics.getStringBounds(this.getText(), graphics).getBounds();

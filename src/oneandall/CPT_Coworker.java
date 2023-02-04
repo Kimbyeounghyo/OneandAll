@@ -64,6 +64,8 @@ public class CPT_Coworker implements Externalizable {
 		return "-----" + tag + "-----" + "\n" + id + "\n" + pwd + "\n" + name + "\n" + grade;
 	}
 	
-	
+	public String getName() {
+		return name + "@" + tag;
+	}
 
 }

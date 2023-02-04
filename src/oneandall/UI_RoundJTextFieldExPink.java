@@ -15,16 +15,17 @@ public class UI_RoundJTextFieldExPink extends JTextField{
 	
 	public UI_RoundJTextFieldExPink() {
         super();
-        decorate();
-        
+        setBorder(BorderFactory.createEmptyBorder());
+        setOpaque(false);
+        setHorizontalAlignment(JTextField.CENTER);
 	}
     public UI_RoundJTextFieldExPink(String string) {
-		setText(string);
-	}
-	protected void decorate() {
     	setBorder(BorderFactory.createEmptyBorder());
         setOpaque(false);
-    }
+        setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+        setHorizontalAlignment(JTextField.CENTER);
+		setText(string);
+	}
 	
     @Override
     protected void paintComponent(Graphics g) {
@@ -42,9 +43,6 @@ public class UI_RoundJTextFieldExPink extends JTextField{
 //        } else {
 //            graphics.setColor(getBackground());
 //        }
-
-        
-        graphics.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
         
         FontMetrics fontMetrics = graphics.getFontMetrics();
         Rectangle stringBounds = fontMetrics.getStringBounds(this.getText(), graphics).getBounds();
@@ -56,6 +54,7 @@ public class UI_RoundJTextFieldExPink extends JTextField{
         graphics.fillRoundRect(0, 0, width, height, 10, 10);
         graphics.setColor(getForeground());
         graphics.drawString(getText(), textX, textY);
+        getCaret().paint(graphics);
         graphics.dispose();
 
 //        super.paintComponent(g);

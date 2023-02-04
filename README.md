@@ -85,7 +85,7 @@
 ![image](https://user-images.githubusercontent.com/96603612/216769321-c631ccfe-2985-4151-9c7c-a4dd65f2b46e.png)		
 		
 
-## 2월 4일 기능 추가 설명
+## 2월 4일 추가기능 1
 1. CPT_CPTManger 안에 회원정보가 담기는데 이걸 가져오기 위해서 객체를 생성해주었다.
 2. memberName이라는 String 배열은 cList의 크기 (회원수) 만큼 크기를 설정해 준다.
 3. memberName에 있는 정보를 for문을 돌며 가져온다. 아래와 같은 로직은 모든 정보를 가져오겠다는 의미
@@ -122,3 +122,37 @@
 ![1](https://user-images.githubusercontent.com/96603612/216768660-ef5728dd-263f-4f91-bcd7-211c5516af95.jpg)
 회원 수가 0 명인 경우
 ![image](https://user-images.githubusercontent.com/96603612/216768814-ba864f85-3762-4989-a0b6-fd4130b1c621.png)
+
+
+## 2월 4일 추가기능 2 
+1. 텍스트 화면에서 엔터를 치자마자 화면에 일정이 짠하고 나타나는 기능
+2. 저장하는 것까지가 백엔드라면 일단 프론트를 구현했다. 
+3. 바의 높이를 tempH로 설정하여 추가로 중복 일정에 따라 생성되는 바의 높이가 다르게 생기게끔 구현할 예정이다.
+4. 일정을 바로 바에 담을 수 있도록 하였다.
+5. 주의 할 점은 버튼 바의 객체 생성위치 값을 비교할 때 .Text()를 붙여주어야 한다는 점. Label의 배경색을 변경해 주어야 바가 화면에 나타나는 점이다.
+
+
+ 	tf2.addKeyListener(new KeyAdapter() {
+			 
+			 @Override
+			 public void keyTyped(KeyEvent e) {
+				
+				 if(e.getKeyChar() == KeyEvent.VK_ENTER) {
+					 c_textArea.append(cF.month+"월 "+ tf.getText()+"일 "+tf2.getText()+"\n");
+					
+					 System.out.println(tf.getText());
+					 tempH=0;
+					 //바로 화면에 띄우는 메소드
+					 for(int i=0; i<Label_Day.length;i++) {
+						 p_bar_G= new UI_PinkButton(tf2.getText());
+						 if(Label_Day[i].getText().equals(tf.getText())){
+							 Label_Day[i].setBackground(new Color(255,255,242));
+							 p_bar_G= new UI_PinkButton(tf2.getText());
+							 Label_Day[i].add(p_bar_G);
+							 p_bar_G.setBounds(14,tempH,70,12);
+							 break;
+						 }
+					 }
+				 }//if end
+			}
+		 });

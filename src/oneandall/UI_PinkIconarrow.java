@@ -43,7 +43,7 @@ public class UI_PinkIconarrow extends JButton {
       Dimension d = getSize();
       g2.fillRoundRect(0, 0, (int)d.getWidth(), (int)d.getHeight(), 100, 100);
       try {
-         BufferedImage image = ImageIO.read(new File("src\\OneAndAllSample\\src\\frame\\pinkarrowT.png"));
+         BufferedImage image = ImageIO.read(new File("pinkarrowT.png"));
          int w = (int)d.getWidth();
          int h = (int)d.getHeight();
          g2.drawImage(image, 0, 0, w, h, null);

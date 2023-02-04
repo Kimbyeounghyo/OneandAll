@@ -25,11 +25,12 @@ import javax.swing.SwingConstants;
 	
 public class _Login extends JFrame{	
 	
-	
+	JFrame frame;
 	//
 	_Login() {
 
 		CPT_CPTManager.getFromOaaDB();
+		frame = this;
 		
 		JPanel LoginP = new JPanel();
 		
@@ -106,8 +107,11 @@ public class _Login extends JFrame{
 			
 			
 			if(cl.get(0).pwd.equals(txtPass.getText())){
-				JOptionPane.showMessageDialog(null, "로그인 성공");;
+				JOptionPane.showMessageDialog(null, "로그인 성공");
+				CPT_LoginInfo.loginUser = cl.get(0); //로그인 정보를 저장해놓는다
+				frame.setDefaultCloseOperation(HIDE_ON_CLOSE);
 				new _OneandAll_MainScreen();
+				frame.dispose();
 			}else {
 				JOptionPane.showMessageDialog(null, "로그인 실패");;
 			}

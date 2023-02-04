@@ -28,6 +28,7 @@ public class P_Projectcreate extends JFrame{
 	
 	public P_Projectcreate() {
 		frame = this;
+		if(CPT_LoginInfo.loginUser == null) CPT_LoginInfo.goHome(this);
 		setTitle("OneAndAll");
 		
 		setContentPane(defaultPanel = new JPanel(null));
@@ -147,11 +148,9 @@ public class P_Projectcreate extends JFrame{
 				if(CPT_CPTManager.pList == null)
 					CPT_CPTManager.pList = new ArrayList<P_Project>();
 				
-				CPT_Coworker c = CPT_LoginInfo.getLoggedInfo();
-				
 				P_Project p = new P_Project(pName.getText(), pContent.getText(), sDate.getText(), eDate.getText());
 				p.workers = new ArrayList<CPT_Coworker>();
-				p.workers.add(c);
+				p.workers.add(CPT_LoginInfo.loginUser);
 				
 				CPT_CPTManager.pList.add(p);
 				

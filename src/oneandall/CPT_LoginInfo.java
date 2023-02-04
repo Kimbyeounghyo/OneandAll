@@ -3,36 +3,34 @@ package oneandall;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import oneandall.CPT_Coworker;
 import oneandall.P_Project;
 
 public class CPT_LoginInfo {
-	//로그인 시에는 나중에 tag로 비교할 생각중
-	long currentTag;
-	//
-	//수정 필요
-	public static CPT_Coworker getLoggedInfo() {
-		String id = "teamleaderkim";
-		String pwd = "aaa";
-		List<CPT_Coworker> cl = CPT_CPTManager.cList.stream().filter(c -> c.id.equals(id) && c.pwd.equals(pwd)).collect(Collectors.toList());
-		
-		if(cl == null || cl.size() == 0) return null;
-		
-		return cl.get(0);
-	}
+	//로그인 유저 이름 @ tag로 비교하기 위해 저장해놓는다
+	public static CPT_Coworker loginUser;
 
 	public static List<P_Project> getCurrentProjects(){
-		CPT_Coworker cw = getLoggedInfo();
 		
-		if(cw == null || CPT_CPTManager.pList == null) return null;
+		if(loginUser == null || CPT_CPTManager.pList == null) return null;
 		
-		System.out.println(cw.tag);
+		System.out.println(loginUser.tag);
 		List<P_Project> currentProjects = CPT_CPTManager.pList.stream()
-				.filter(p -> p.workers.stream().filter(c -> c.equals(cw))
+				.filter(p -> p.workers.stream().filter(c -> c.equals(loginUser))
 									.collect(Collectors.toList()).size() > 0)
 				.collect(Collectors.toList());
 		
 		return currentProjects;
+	}
+	
+	public static void goHome(JFrame f) {
+		JOptionPane.showMessageDialog(null, "로그인 후 이용해주세요");
+		f.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+		new _OneandAll_MainScreen();
+		f.dispose();
 	}
 
 }

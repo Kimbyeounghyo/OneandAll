@@ -19,6 +19,7 @@ public class P_ProjectHistoryFrame extends JFrame {
 	
 	public P_ProjectHistoryFrame(P_Project p) {
 		frame = this;
+		if(CPT_LoginInfo.loginUser == null) CPT_LoginInfo.goHome(this);
 		targetProject = p;
 		
 		setTitle(P_EnvironmentConfigure.PROJECT_TITLE); //타이틀 이름 설정

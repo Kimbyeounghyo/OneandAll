@@ -2,6 +2,8 @@ package oneandall;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -24,9 +26,7 @@ public class P_ProjectSelectFrame extends JFrame {
 	public P_ProjectSelectFrame(String targetFrame) {
 		
 		frame = this;
-		
-		//CPTManager.getFromOaaDB();
-		
+		if(CPT_LoginInfo.loginUser == null) CPT_LoginInfo.goHome(this);
 		setTitle(P_EnvironmentConfigure.PROJECT_TITLE); //타이틀 이름 설정
 		setSize(P_EnvironmentConfigure.PROJECT_WIDTH, P_EnvironmentConfigure.PROJECT_HEIGHT); //화면 사이즈 설정
 		setLocationRelativeTo(null); // 화면 가운데에 뜨도록 설정, 사이즈를 먼저 설정해주고 불러주기!
@@ -52,8 +52,30 @@ public class P_ProjectSelectFrame extends JFrame {
 				P_EnvironmentConfigure.PROJECT_HEIGHT * 9 / 10 - 50);
 			content.setBorder(BorderFactory.createEmptyBorder(5,1,5,1));
 			
-			JButton noProjects = new PinkButton("참여중인 프로젝트가 없네요 ㅠoㅠ\n누르면 프로젝트 생성으로 이동시켜 드릴게요");
+			String failMessage = "";
+			switch(targetFrame) {
+			case "projectManagement":
+			case "projectArrange":
+				failMessage = "참여중인 프로젝트가 없네요 ㅠoㅠ\n누르면 프로젝트 생성으로 이동시켜 드릴게요"; break;
+			case "projectHistory":
+				failMessage = "저장된 이력이 없네요 ㅠoㅠ\n많은 이용 부탁드려요"; break;
+			}
+			
+			JButton noProjects = new PinkButton(failMessage);
 			noProjects.setPreferredSize(new Dimension(content.getWidth() - 10, content.getHeight() - 50));
+			if(targetFrame.equals("projectHistory")) {
+				noProjects.setEnabled(false);
+			}else {
+				noProjects.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent e) {
+						frame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+						new P_Projectcreate();
+						frame.dispose();
+					}
+				});
+			}
 			
 			content.add(noProjects);
 			add(content);

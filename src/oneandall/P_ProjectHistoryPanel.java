@@ -90,7 +90,7 @@ public class P_ProjectHistoryPanel extends JPanel {
 		handPersonName.setPreferredSize(new Dimension(100, 50));
 		handPersonName.setEditable(false);
 		piHandOver.add(handPersonName);
-		handPersonName.setText(CPT_LoginInfo.getLoggedInfo().id);
+		handPersonName.setText(CPT_LoginInfo.loginUser.name);
 		
 //		JButton personFindBtn = new PinkIconButton(new File("src\\images\\pinkReadingGlass.png"));
 //		personFindBtn.setPreferredSize(new Dimension(50, 50));

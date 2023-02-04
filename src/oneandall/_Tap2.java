@@ -90,7 +90,7 @@ public class _Tap2 extends JFrame{
 
 					@Override
 					public void mousePressed(MouseEvent e) {
-						 new P_Projectarrangeexample2();
+						P_EnvironmentConfigure.createFrame(new P_ProjectSelectFrame("projectArrange"));
 						dispose();
 					}
 			    	 

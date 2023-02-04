@@ -236,7 +236,7 @@ public class CPT_CPTManager implements Runnable{
 	
 	public static void saveAll() {
 		try {
-//			CPT_CPTManager.save("src" + File.separator + "oaadb" + File.separator + "project" + File.separator);
+			CPT_CPTManager.save("src" + File.separator + "oaadb" + File.separator + "project" + File.separator);
 			CPT_CPTManager.save("src" + File.separator + "oaadb" + File.separator + "coworker" + File.separator);
 //			CPT_CPTManager.save("src" + File.separator + "oaadb" + File.separator + "task" + File.separator);
 		} catch (IOException e) {

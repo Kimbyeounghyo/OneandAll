@@ -80,8 +80,7 @@ public class P_ProjectManagementPanel extends JPanel {
 		JTextField handPersonName = new RoundTextField();
 		handPersonName.setPreferredSize(new Dimension(100, 50));
 		piHandOver.add(handPersonName);
-		System.out.println(CPT_LoginInfo.getLoggedInfo().grade);
-		handPersonName.setText(CPT_LoginInfo.getLoggedInfo().name);
+		handPersonName.setText(CPT_LoginInfo.loginUser.name);
 		
 		JButton personFindBtn = new PinkIconButton(new File("src\\images\\pinkReadingGlass.png"));
 		personFindBtn.setToolTipText("팀장을 찾아봐요");

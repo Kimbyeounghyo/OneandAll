@@ -35,7 +35,7 @@
 		} 
 ### >>>>>> 화면설명		
 		
-![a](https://user-images.githubusercontent.com/96603612/216768655-1c1e7eb1-a714-40f3-9639-516901684d98.jpg)
+![a](https://user-images.githubusercontent.com/96603612/216768655-1c1e7eb1-a714-40f3-9639-516901684d98.jpg)<br>
 계정 id : 1234 로 회원가입 후 로그인 했을 때 화면 
 ![1](https://user-images.githubusercontent.com/96603612/216768660-ef5728dd-263f-4f91-bcd7-211c5516af95.jpg)
 회원 수가 0 명인 경우

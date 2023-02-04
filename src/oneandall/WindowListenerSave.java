@@ -5,7 +5,7 @@ import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
-import oneandall.CPTManager;
+import oneandall.CPT_CPTManager;
 
 public class WindowListenerSave implements WindowListener {
 
@@ -19,7 +19,7 @@ public class WindowListenerSave implements WindowListener {
 	public void windowClosing(WindowEvent e) {
 		JFrame frame = (JFrame)e.getSource();
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		new Thread(new CPTManager()).start();
+		new Thread(new CPT_CPTManager()).start();
 		frame.dispose();
 	}
 

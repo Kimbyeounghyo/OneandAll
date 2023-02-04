@@ -28,105 +28,105 @@ public class _Tap2 extends JFrame{
 		      pMenu2.setBackground(Color.black);
 		      pMenu2.setLayout(null);
 		     
-		     JButton Membnt1 = new PinkButton("팀원 관리");
-		     Membnt1.setBounds(486, 40, 228, 30);
+		     JButton Membnt1 = new UI_PinkButton("팀원 관리");
+		     Membnt1.setBounds(248, 40, 228, 30);
 		     
 		     Membnt1.addMouseListener(new MouseAdapter() {
 
 					@Override
 					public void mousePressed(MouseEvent e) {
-						new AddMember();
+						new M_AddMember();
 						dispose();
 					}
 			    	 
 			    	 
 				});
-		     JButton Membnt2 = new PinkButton("출퇴근 관리");
-		     Membnt2.setBounds(486, 110, 228, 30);
+		     JButton Membnt2 = new UI_PinkButton("출퇴근 관리");
+		     Membnt2.setBounds(248, 110, 228, 30);
 		     
 		     Membnt2.addMouseListener(new MouseAdapter() {
 
 					@Override
 					public void mousePressed(MouseEvent e) {
-						new CommuteManage();
+						new M_CommuteManage();
 						dispose();
 					}
 			    	 
 			    	 
 				});
-		     JButton Membnt3 = new PinkButton("휴가 관리");
-		     Membnt3.setBounds(486, 180, 228, 30);
+		     JButton Membnt3 = new UI_PinkButton("휴가 관리");
+		     Membnt3.setBounds(248, 180, 228, 30);
 		     
 		     Membnt3.addMouseListener(new MouseAdapter() {
 
 				@Override
 				public void mousePressed(MouseEvent e) {
-					new Member_vacances();
+					new M_vacances();
 					dispose();
 				}
 		    	 
 		    	 
 			});
 		     
-		     JButton ProBnt1 = new PinkButton("프로젝트 생성");
-		     ProBnt1.setBounds(724, 40, 228, 30);
+		     JButton ProBnt1 = new UI_PinkButton("프로젝트 생성");
+		     ProBnt1.setBounds(486, 40, 228, 30);
 		     
 		     ProBnt1.addMouseListener(new MouseAdapter() {
 
 					@Override
 					public void mousePressed(MouseEvent e) {
-						EnvironmentConfigure.createFrame(new Projectcreate());
+						P_EnvironmentConfigure.createFrame(new P_Projectcreate());
 						dispose();
 					}
 			    	 
 			    	 
 				});
 		     
-		     JButton ProBnt2 = new PinkButton("프로젝트 배치");
-		     ProBnt2.setBounds(724, 110, 228, 30);
+		     JButton ProBnt2 = new UI_PinkButton("프로젝트 배치");
+		     ProBnt2.setBounds(486, 110, 228, 30);
 		     
 
 		     ProBnt2.addMouseListener(new MouseAdapter() {
 
 					@Override
 					public void mousePressed(MouseEvent e) {
-						 new Projectarrangeexample2();
+						 new P_Projectarrangeexample2();
 						dispose();
 					}
 			    	 
 			    	 
 				});
 		     
-		     JButton ProBnt3 = new PinkButton("프로젝트 관리");
-		     ProBnt3.setBounds(724, 180, 228, 30);
+		     JButton ProBnt3 = new UI_PinkButton("프로젝트 관리");
+		     ProBnt3.setBounds(486, 180, 228, 30);
 		     
 		     ProBnt3.addMouseListener(new MouseAdapter() {
 
 					@Override
 					public void mousePressed(MouseEvent e) {
-						EnvironmentConfigure.createFrame(new ProjectSelectFrame("projectManagement"));
+						P_EnvironmentConfigure.createFrame(new P_ProjectSelectFrame("projectManagement"));
 						dispose();
 					}
 			    	 
 			    	 
 				});
 		     
-		     JButton ProBnt4 = new PinkButton("프로젝트 이력");
-		     ProBnt4.setBounds(724, 250, 228, 30);
+		     JButton ProBnt4 = new UI_PinkButton("프로젝트 이력");
+		     ProBnt4.setBounds(486, 250, 228, 30);
 
 		     ProBnt4.addMouseListener(new MouseAdapter() {
 
 					@Override
 					public void mousePressed(MouseEvent e) {
-						EnvironmentConfigure.createFrame(new ProjectSelectFrame("projectHistory"));
+						P_EnvironmentConfigure.createFrame(new P_ProjectSelectFrame("projectHistory"));
 						dispose();
 					}
 			    	 
 			    	 
 				});
 		     
-		     JButton SchBnt1 = new PinkButton("팀 일정");
-		     SchBnt1.setBounds(962, 40, 228, 30);
+		     JButton SchBnt1 = new UI_PinkButton("팀 일정");
+		     SchBnt1.setBounds(724, 40, 228, 30);
 		     
 		     SchBnt1.addMouseListener(new MouseAdapter() {
 
@@ -138,8 +138,8 @@ public class _Tap2 extends JFrame{
 			    	 
 			    	 
 				});
-		     JButton SchBnt2 = new PinkButton("개인 일정");
-		     SchBnt2.setBounds(962, 110, 228, 30);
+		     JButton SchBnt2 = new UI_PinkButton("개인 일정");
+		     SchBnt2.setBounds(724, 110, 228, 30);
 		     SchBnt2.addMouseListener(new MouseAdapter() {
 
 					@Override
@@ -151,7 +151,7 @@ public class _Tap2 extends JFrame{
 			    	 
 				});
 		     
-		     JButton exitBnt = new PinkButton("^");
+		     JButton exitBnt = new UI_PinkButton("^");
 		     exitBnt.setBounds(1150, 500, 30, 20);
 		    
 		     exitBnt.addMouseListener(new MouseAdapter() {

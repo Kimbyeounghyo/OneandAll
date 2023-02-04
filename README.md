@@ -77,8 +77,11 @@
 			}//for line end
 		} catch (IOException e2) {
 			System.out.println("파일이 없음");
+			}
 		}
-	}
+		
+		
+		
 
 ## 2월 4일 기능 추가 설명
 1. CPT_CPTManger 안에 회원정보가 담기는데 이걸 가져오기 위해서 객체를 생성해주었다.

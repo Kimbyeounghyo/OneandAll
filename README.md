@@ -80,7 +80,7 @@
 			}
 		}
 		
-
+### >>>>>> 화면설명	
 ![image](https://user-images.githubusercontent.com/96603612/216769479-39c094d7-1840-499f-b2ff-77a7d643a73e.png)
 ![image](https://user-images.githubusercontent.com/96603612/216769321-c631ccfe-2985-4151-9c7c-a4dd65f2b46e.png)		
 		

@@ -133,7 +133,7 @@
 5. 주의 할 점은 버튼 바의 객체 생성위치 값을 비교할 때 .Text()를 붙여주어야 한다는 점. Label의 배경색을 변경해 주어야 바가 화면에 나타나는 점이다.
 
 
- 	tf2.addKeyListener(new KeyAdapter() {
+ 		tf2.addKeyListener(new KeyAdapter() {
 			 
 			 @Override
 			 public void keyTyped(KeyEvent e) {

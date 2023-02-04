@@ -181,7 +181,7 @@ public class P_TaskManagementPanel extends JDesktopPane {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				P_Task aTask = CPT_CPTManager.findTaskById(currentTaskId);
 				if(aTask == null) JOptionPane.showMessageDialog(null, "현재 선택된 업무가 없습니다");
-				aTask.projectName = ((P_TaskManagementPanel)getParent()).currentProject.name;
+				aTask.projectName = ((P_ProjectManagementPanel)getParent()).currentProject.name;
 				try {
 					aTask.startDate = sdf.parse(from.getText());
 					aTask.endDate = sdf.parse(to.getText());
@@ -216,7 +216,7 @@ public class P_TaskManagementPanel extends JDesktopPane {
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				CPT_CPTManager.clipBoard = new P_Task();
-				CPT_CPTManager.clipBoard.projectName = ((P_TaskManagementPanel)getParent()).currentProject.name;
+				CPT_CPTManager.clipBoard.projectName = ((P_ProjectManagementPanel)getParent()).currentProject.name;
 				try {
 					System.out.println(from.getText());
 					System.out.println(to.getText());
@@ -256,7 +256,7 @@ public class P_TaskManagementPanel extends JDesktopPane {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				List<P_Task> ctl = CPT_CPTManager.getTasksFromProject(((P_TaskManagementPanel)getParent()).currentProject);
+				List<P_Task> ctl = CPT_CPTManager.getTasksFromProject(((P_ProjectManagementPanel)getParent()).currentProject);
 				if(ctl == null) {
 					JOptionPane.showMessageDialog(null, "업무정보가 없습니다"); return;
 				}

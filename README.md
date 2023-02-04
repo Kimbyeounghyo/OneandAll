@@ -80,7 +80,7 @@
 			}
 		}
 		
-### >>>>>> 화면설명	
+### 파일로 저장 -> 파일로드 -> 화면에 
 ![image](https://user-images.githubusercontent.com/96603612/216769479-39c094d7-1840-499f-b2ff-77a7d643a73e.png)
 ![image](https://user-images.githubusercontent.com/96603612/216769321-c631ccfe-2985-4151-9c7c-a4dd65f2b46e.png)		
 		
@@ -115,7 +115,7 @@
 			JComboBox<String> jComboBox = new JComboBox<>(memberName);
 			p_West.add(jComboBox);
 		} 
-### >>>>>> 화면설명		
+### 회원을 콤보박스에 담음 / 회원이 0명일 경우
 		
 ![a](https://user-images.githubusercontent.com/96603612/216768655-1c1e7eb1-a714-40f3-9639-516901684d98.jpg)<br>
 계정 id : 1234 로 회원가입 후 로그인 했을 때 화면 
@@ -156,6 +156,6 @@
 				 }//if end
 			}
 		 });
-		 
+### 텍스트필드에서 입력 후 캘린더 화면에 바로 출력 / 파일로 저장되지 않은 상태		 
 ![1](https://user-images.githubusercontent.com/96603612/216771150-140a0284-0d44-4769-b81f-e8664fdd6dea.jpg)
 

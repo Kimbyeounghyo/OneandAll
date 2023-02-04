@@ -81,7 +81,7 @@
 		}
 		
 ![image](https://user-images.githubusercontent.com/96603612/216769279-d535729a-8a3f-4b1c-b5be-5f3eedf6ee85.png)
-		
+![image](https://user-images.githubusercontent.com/96603612/216769321-c631ccfe-2985-4151-9c7c-a4dd65f2b46e.png)		
 		
 
 ## 2월 4일 기능 추가 설명

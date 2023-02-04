@@ -58,7 +58,7 @@ public class M_AddMember extends JFrame {
       pMenu.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
       getContentPane().add(pMenu);
       pMenu.setBackground(new Color(0, 0, 0));
-      pMenu.setLayout(new GridLayout(1, 5, 10, 0)); // 1행4열에 10공백
+      pMenu.setLayout(new GridLayout(1, 5, 10, 0)); // 1행 4열에 10공백
       add(pMenu);
 
       
@@ -145,13 +145,13 @@ public class M_AddMember extends JFrame {
       JPanel Pta = new JPanel();
       Pta.setBounds(0, 40, 500, 390);
       Pta.setLayout(new BorderLayout());
-      
-      
+           
       JTextArea ta = new JTextArea();
       ta.setBackground(new Color(255, 198, 218));
       ta.setBounds(0, 0, 500, 390);
       ta.setFont(new Font("함초롱바탕", Font.PLAIN, 20));
       ta.setLineWrap(true);
+      ta.setEditable(false);
       
       PinkScroll scroll = new PinkScroll(ta) {
          @Override
@@ -206,7 +206,7 @@ public class M_AddMember extends JFrame {
       tName.setBounds(40, 110, 120, 40);
       tName.setBackground(Color.LIGHT_GRAY);
       tName.setFont(tfFont);
-      // tName.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+      tName.setBorder(javax.swing.BorderFactory.createEmptyBorder());
       PrgIn.add(tName);
 
       JLabel lGrade = new JLabel("직급");
@@ -222,7 +222,7 @@ public class M_AddMember extends JFrame {
       
       rb1 = new JRadioButton("팀장");
       rb2 = new JRadioButton("부팀장");
-      rb3 = new JRadioButton("팀원", true);
+      rb3 = new JRadioButton("팀원");
       
       
       //rb1 = new JRadioButton("팀장");
@@ -267,12 +267,6 @@ public class M_AddMember extends JFrame {
       rb2.addMouseListener(new MouseAdapter() {
 
          @Override
-         public void mousePressed(MouseEvent e) {
-            JRadioButton rb2 = (JRadioButton) e.getSource();
-            rb2.setBackground(Color.LIGHT_GRAY);
-         }
-
-         @Override
          public void mouseEntered(MouseEvent e) {
             JRadioButton rb2  = (JRadioButton) e.getSource();
             rb2.setBackground(Color.LIGHT_GRAY);
@@ -300,12 +294,6 @@ public class M_AddMember extends JFrame {
       rb3.setBorderPainted(false);
       rb3.setFont(font);
       rb3.addMouseListener(new MouseAdapter() {
-
-         @Override
-         public void mousePressed(MouseEvent e) {
-            JRadioButton rb3 = (JRadioButton) e.getSource();
-            rb3.setBackground(Color.LIGHT_GRAY);
-         }
 
          @Override
          public void mouseEntered(MouseEvent e) {
@@ -374,6 +362,17 @@ public class M_AddMember extends JFrame {
             saveBtn.setBackground(Color.WHITE);
          }
       });
+      //왼쪽패널에 파일 불러오기
+      try {
+		  Charset cs = Charset.forName("UTF-8");
+          List<String> addList = Files.readAllLines(Paths.get("NiNi.txt"),cs);
+          System.out.println(addList);
+          for(String i : addList) {
+        	  ta.append(i.toString()+"\n");
+          }
+       } catch (IOException e2) {
+          e2.printStackTrace();
+       }
       //저장 버튼을 누르면 파일에 저장
       saveBtn.addActionListener(new ActionListener() {
          
@@ -396,7 +395,7 @@ public class M_AddMember extends JFrame {
             
             tName.setText("");
             tTel.setText("");
-            
+            ta.setText(""); //저장버튼 누르면 왼쪽 비워지고 다시 채워짐
             
             try {
                  Charset cs = Charset.forName("UTF-8");
@@ -409,23 +408,7 @@ public class M_AddMember extends JFrame {
                      e2.printStackTrace();
                   }
          }
-      });
-//      
-//       //파일 객체 생성
-//        Path path = Paths.get("C:\\Users\\world\\Desktop\\javaprogramming\\FileIO\\Sample.txt");
-//        // 캐릭터셋 지정
-//        Charset cs = StandardCharsets.UTF_8;
-//        //파일 내용담을 리스트
-//        List<String> list = new ArrayList<String>();
-//        try{
-//            list = Files.readAllLines(path,cs);
-//        }catch(IOException e){
-//            e.printStackTrace();
-//        }
-//        for(String readLine : list){
-//            System.out.println(readLine);
-//        }
-      
+      });     
       
       // 오른쪽안쪽패널 > 상단 버튼
       JPanel pR = new JPanel();

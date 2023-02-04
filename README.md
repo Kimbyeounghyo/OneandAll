@@ -33,3 +33,6 @@
 			JComboBox<String> jComboBox = new JComboBox<>(memberName);
 			p_West.add(jComboBox);
 		} 
+		
+![a](https://user-images.githubusercontent.com/96603612/216768655-1c1e7eb1-a714-40f3-9639-516901684d98.jpg)
+![1](https://user-images.githubusercontent.com/96603612/216768660-ef5728dd-263f-4f91-bcd7-211c5516af95.jpg)

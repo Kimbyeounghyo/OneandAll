@@ -26,6 +26,8 @@ public class P_SearchTextField extends JTextField{
 	protected void decorate() {
     	setBorder(BorderFactory.createEmptyBorder());
         setOpaque(false);
+        setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));
+        setHorizontalAlignment(JTextField.CENTER);
     }
     @Override
     protected void paintComponent(Graphics g) {
@@ -52,6 +54,7 @@ public class P_SearchTextField extends JTextField{
 //        graphics.setStroke(new BasicStroke(100,BasicStroke.CAP_ROUND,BasicStroke.JOIN_ROUND));
         graphics.setColor(getForeground());
         graphics.drawString(getText(), textX, textY);
+        getCaret().paint(graphics);
         graphics.dispose();
 
 //        super.paintComponent(g);

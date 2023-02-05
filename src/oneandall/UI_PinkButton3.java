@@ -7,6 +7,7 @@ import java.awt.FontMetrics;
 import java.awt.Rectangle;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 
 import javax.swing.JButton;
 
@@ -44,9 +45,24 @@ public class UI_PinkButton3 extends JButton {
 		}
 		
 		Dimension d = getSize();
-		System.out.println(getText() + ", size : "+ getSize());
 		g2.fillRoundRect(0, 0, (int)d.getWidth(), (int)d.getHeight(), 10, 10);
 		
+		String[] comments = getText().split("\n");
+		g2.setFont(new Font(Font.MONOSPACED, Font.BOLD, 20));  
 		FontMetrics fontMetrics = g2.getFontMetrics();
+
+		int cnt = 0;
+		g2.setColor(getForeground()); // 앞배경 색(폰트 색)
+		for (String s : comments) {
+
+			Rectangle stringBounds = fontMetrics.getStringBounds(s, g2).getBounds();
+
+			int textX = ((int) d.getWidth() - stringBounds.width) / 2;
+			int textY = (int) d.getHeight() / 2 - stringBounds.height * comments.length / 2
+					+ stringBounds.height * cnt++ + fontMetrics.getAscent();
+
+			// g2.setFont(getFont());
+			g2.drawString(s, textX, textY);
+		}
 	}
 }

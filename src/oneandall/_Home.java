@@ -14,11 +14,7 @@ import javax.swing.JPanel;
 
 public class _Home extends JFrame{
 	
-
-	
 	public _Home() {
-		
-	
 		
 		setTitle("One and All");
 		setSize(1200,600);

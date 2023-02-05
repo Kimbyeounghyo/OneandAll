@@ -50,7 +50,7 @@ public class UI_PinkIconsearch extends JButton {
       Dimension d = getSize();
       g2.fillRoundRect(0, 0, (int)d.getWidth(), (int)d.getHeight(), 10, 10);
       try {
-         BufferedImage image = ImageIO.read(new File("src\\OneAndAllSample\\src\\frame\\돋보기.png"));
+         BufferedImage image = ImageIO.read(new File("돋보기.png"));
          int w = (int)d.getWidth();
          int h = (int)d.getHeight();
          g2.drawImage(image, 0, 0, w, h, null);

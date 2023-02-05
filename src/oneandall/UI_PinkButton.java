@@ -9,8 +9,9 @@ package oneandall;
 	import java.awt.Rectangle;
 	import java.awt.Color;
 	import java.awt.Dimension;
+import java.awt.Font;
 
-	import javax.swing.JButton;
+import javax.swing.JButton;
 
 	@SuppressWarnings("serial")
 	public class UI_PinkButton extends JButton {

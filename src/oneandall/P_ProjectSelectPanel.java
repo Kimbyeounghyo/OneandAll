@@ -55,7 +55,7 @@ public class P_ProjectSelectPanel extends JPanel {
 						break;
 					case "projectArrange":
 						System.out.println("arrange selected");
-						P_EnvironmentConfigure.createFrame(new P_Projectarrangeexample2());
+						P_EnvironmentConfigure.createFrame(new P_Projectarrangeexample2(p));
 						break;
 					}
 					

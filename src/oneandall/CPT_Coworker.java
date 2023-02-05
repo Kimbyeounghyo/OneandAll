@@ -68,4 +68,7 @@ public class CPT_Coworker implements Externalizable {
 		return name + "@" + tag;
 	}
 
+	public long getTag() {
+		return tag;
+	}
 }

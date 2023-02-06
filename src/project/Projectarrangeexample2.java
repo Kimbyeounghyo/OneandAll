@@ -29,6 +29,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.border.Border;
 
+import util.CPTManager;
+import util.LoginInfo;
+
 public class Projectarrangeexample2 extends JFrame{
    
    
@@ -51,8 +54,6 @@ public class Projectarrangeexample2 extends JFrame{
          pMenu.setLayout(new GridLayout(1, 5, 10, 0)); //1행4열에 10공백
          add(pMenu);
          
-        
-         
          var login = new PinkButton("Login");
          login.addMouseListener(new MouseAdapter() {});
         
@@ -65,6 +66,9 @@ public class Projectarrangeexample2 extends JFrame{
          pMenu.add(new PinkButton("Project"));
          pMenu.add(new PinkButton("Schedule"));
          //top-------------------------------------------------
+         if(CPTManager.pList == null) {
+        	 
+         }
          projectName(new RoundJTextFieldExPink("Project Name"));
          projectterm(new PinkButtonPanel("Term"));
          projectstart(new RoundJTextFieldExWhite("Start Date"));

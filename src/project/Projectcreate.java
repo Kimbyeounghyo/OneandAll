@@ -2,8 +2,12 @@ package project;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import scheduler.Home;
+import util.CPTManager;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -14,12 +18,21 @@ import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseAdapter;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class Projectcreate extends JFrame{
 	
 	JPanel defaultPanel;
+	JFrame frame;
 	
 	public Projectcreate() {
+		
+		frame = this;
+		
 		setTitle("OneAndAll");
 		
 		setContentPane(defaultPanel = new JPanel(null));
@@ -56,8 +69,9 @@ public class Projectcreate extends JFrame{
 		projectcreate(rp);
 		projectterm(new PinkButtonPanel("기한"));
 		RoundJTextFieldExWhite rt=new RoundJTextFieldExWhite("Start Date");
-		projectstart(rt);
 		rt.setHorizontalAlignment(JTextField.CENTER);
+		projectstart(rt);
+      
 		projecting(new PinkButtonPanel("~"));
 		RoundJTextFieldExWhite rw=new RoundJTextFieldExWhite("Finish Date");
 		rw.setHorizontalAlignment(JTextField.CENTER);
@@ -71,13 +85,47 @@ public class Projectcreate extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.out.println(rp.getText());
-				System.out.println(rt.getText());
-				System.out.println(rw.getText());
-				System.out.println(pt.getText());
+				Date d =null;
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					d = format.parse(rt.getText());
+					System.out.println(d);
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				Date d2 =null;
+				try {
+					SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+					d2 = format.parse(rw.getText());
+					System.out.println(d2);
+				} catch (ParseException e1) {
+					JOptionPane.showMessageDialog(null, "날짜형식은 yyyy-mm-dd입니다");
+					return;
+				}
+				Project pj=new Project();
+				System.out.println(pj.name=rp.getText());
+				System.out.println(pj.startDate=d);
+				System.out.println(pj.endDate=d2);
+				System.out.println(pj.content=pt.getText());
 				System.out.println(pc.getText());
+				if(CPTManager.pList!=null){					
+					CPTManager.pList.add(pj);
+				}else if(CPTManager.pList==null){
+					List<Project> pList=new ArrayList<Project>();
+					pList.add(pj);
+				}
+				
+				frame.setDefaultCloseOperation(HIDE_ON_CLOSE);
+				new Home();
+				frame.dispose();
+				
+				
+				
+				
 			}
 		});
+		
 		
 		projectcheck(pc);
 		

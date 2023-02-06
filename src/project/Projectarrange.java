@@ -25,9 +25,11 @@ import java.awt.event.MouseEvent;
 public class Projectarrange extends JFrame{
 	
 	JPanel defaultPanel;
+	Project currentProject;
 	
-	public Projectarrange() {
+	public Projectarrange(Project p) {
 		setTitle("OneAndAll");
+		currentProject = p;
 		
 		setContentPane(defaultPanel = new JPanel(null));
 		getContentPane().setBackground(Color.BLACK);

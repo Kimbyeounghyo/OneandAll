@@ -14,22 +14,22 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JButton;
 
-public class PinkIconsearch extends JButton {
+public class PinkIconplus extends JButton {
    
    Color buttonColor;
 
-   public PinkIconsearch() {
+   public PinkIconplus() {
       setBorderPainted(false);
       setOpaque(false);
       setContentAreaFilled(false);
       
-      buttonColor = new Color(255, 198, 218);
+      buttonColor = new Color(255, 235, 235);
    }
-   public PinkIconsearch(String text) {
+   public PinkIconplus(String text) {
       setBorderPainted(false);
       setOpaque(false);
       
-      buttonColor = new Color(255, 198, 218);
+      buttonColor = new Color(255, 235, 235);
       setText(text);
    }
    
@@ -49,15 +49,15 @@ public class PinkIconsearch extends JButton {
       
       Dimension d = getSize();
       g2.fillRoundRect(0, 0, (int)d.getWidth(), (int)d.getHeight(), 10, 10);
-      try {
-         BufferedImage image = ImageIO.read(new File("src\\project\\돋보기.png"));
-         int w = (int)d.getWidth();
-         int h = (int)d.getHeight();
-         g2.drawImage(image, 0, 0, w, h, null);
-      } catch (IOException e) {
-         // TODO Auto-generated catch block
-         e.printStackTrace();
-      }
+//      try {
+//         BufferedImage image = ImageIO.read(new File("src\\project\\플러스.png"));
+//         int w = (int)d.getWidth();
+//         int h = (int)d.getHeight();
+//         g2.drawImage(image, 0, 0, w, h, null);
+//      } catch (IOException e) {
+//         // TODO Auto-generated catch block
+//         e.printStackTrace();
+//      }
       
       FontMetrics fontMetrics = g2.getFontMetrics();
        Rectangle stringBounds = fontMetrics.getStringBounds(this.getText(), g2).getBounds();
@@ -69,6 +69,8 @@ public class PinkIconsearch extends JButton {
        //g2.setFont(getFont());
        g2.drawString(getText(), textX, textY);
        g2.dispose();
+       
+       
       
       super.paintComponent(g);
    }

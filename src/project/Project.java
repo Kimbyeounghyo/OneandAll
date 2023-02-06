@@ -20,6 +20,7 @@ public class Project implements Externalizable{
 	
 	public Project() {
 		// TODO Auto-generated constructor stub
+		this.projectId = new Date().getTime();
 	}
 
 	public Project(String name, String content, String startDate, String endDate) {

@@ -27,7 +27,9 @@ public class P_Projectcreate extends JFrame{
 	JPanel defaultPanel;
 	
 	public P_Projectcreate() {
+		
 		frame = this;
+		
 		if(CPT_LoginInfo.loginUser == null) CPT_LoginInfo.goHome(this);
 		setTitle("OneAndAll");
 		

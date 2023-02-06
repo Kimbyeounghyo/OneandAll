@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -31,8 +32,9 @@ public class P_HistoryOptionPanel extends JPanel {
 	JButton compareTask;
 	JButton taskFilter;
 	JLabel compareTaskLabel;
+	JLabel tfLabel;
 	
-	int flag = 11;
+	int flag = 32;
 	
 	public P_HistoryOptionPanel() {
 //		setOpaque(false);
@@ -58,15 +60,14 @@ public class P_HistoryOptionPanel extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String funcName = taskFilter.getText();
 				
 				P_ProjectHistoryPanel php = ((P_ProjectHistoryPanel)getParent());
 				
-				if(funcName.equals("정렬(마감순)")) {
-					taskFilter.setText("정렬(생성순)");
+				if(tfLabel.getText().equals("정렬(마감순)")) {
+					tfLabel.setText("정렬(생성순)");
 					flag = flag / 10 * 10 + 1;
-				}else if(funcName.equals("정렬(생성순)")){
-					taskFilter.setText("정렬(마감순)");
+				}else if(tfLabel.getText().equals("정렬(생성순)")){
+					tfLabel.setText("정렬(마감순)");
 					flag = flag / 10 * 10 + 2;
 				}
 				
@@ -83,7 +84,7 @@ public class P_HistoryOptionPanel extends JPanel {
 		compareTaskLabel.setPreferredSize(new Dimension(150, 90));
 		optionExp.add(compareTaskLabel);
 		
-		JLabel tfLabel = new PinkLabel("정렬(마감순)");
+		tfLabel = new PinkLabel("정렬(마감순)");
 		tfLabel.setPreferredSize(new Dimension(150, 90));
 		optionExp.add(tfLabel);
 		
@@ -111,13 +112,27 @@ public class P_HistoryOptionPanel extends JPanel {
 		
 		switch(flag % 10) {
 		case 1:
-			ctl = ctl.stream()
-				.sorted(Comparator.comparing(P_Task::getEndDate).reversed())
-				.collect(Collectors.toList());
+			Collections.sort(ctl, new Comparator<P_Task>() {
+
+				@Override
+				public int compare(P_Task o1, P_Task o2) {
+					// TODO Auto-generated method stub
+					return o2.startDate.compareTo(o1.startDate);
+				}
+				
+			});
+			break;
 		case 2:
-			ctl = ctl.stream()
-				.sorted(Comparator.comparing(P_Task::getStartDate))
-				.collect(Collectors.toList());	
+			Collections.sort(ctl, new Comparator<P_Task>() {
+
+				@Override
+				public int compare(P_Task o1, P_Task o2) {
+					// TODO Auto-generated method stub
+					return o2.endDate.compareTo(o1.endDate);
+				}
+				
+			});
+			break;
 		}
 		
 		php.setTaskListToShow(ctl);

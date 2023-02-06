@@ -16,11 +16,11 @@ import javax.swing.JPanel;
 
 public class _OneandAll_MainScreen extends JFrame{
 	
-
-	
+	JFrame tap;
+	JFrame frame;
 	public _OneandAll_MainScreen() {
 		
-	
+		frame = this;
 		
 		setTitle("One and All");
 		setSize(1200,600);
@@ -43,11 +43,17 @@ public class _OneandAll_MainScreen extends JFrame{
 	      var home = new UI_PinkButton("Home");
 	      home.addMouseListener(new MouseAdapter() {
 	    	  @Override
-				public void mousePressed(MouseEvent e) {
-					new _OneandAll_Main();
+			  public void mousePressed(MouseEvent e) {
+					new _OneandAll_MainScreen();
+					if(tap != null) {
+						tap.dispose();
+						tap = null;						
 					}
+					setDefaultCloseOperation(HIDE_ON_CLOSE);
+					dispose();
+	    	  }
 			
-		});
+		  });
 	      
 	      var login = new UI_PinkButton("Login");
 	      login.addMouseListener(new MouseAdapter() {
@@ -55,6 +61,12 @@ public class _OneandAll_MainScreen extends JFrame{
 			@Override
 			public void mousePressed(MouseEvent e) {
 				new _Login();
+				if(tap != null) {
+					tap.dispose();
+					tap = null;						
+				}
+				setDefaultCloseOperation(HIDE_ON_CLOSE);
+				dispose();
 			}
 		
 	      });
@@ -72,12 +84,14 @@ public class _OneandAll_MainScreen extends JFrame{
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				new _Tap2();
+				if(tap == null)
+					tap = new _Tap2();
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-
+				tap.dispose();
+	    		  tap = null;
 			}
 	    	  
 		});
@@ -86,7 +100,13 @@ public class _OneandAll_MainScreen extends JFrame{
 	      project.addMouseListener(new MouseAdapter() {
 	    	  @Override
 				public void mouseEntered(MouseEvent e) {
-					new _Tap2();
+	    		  if(tap == null)
+						tap = new _Tap2();
+				}
+	    	  @Override
+				public void mousePressed(MouseEvent e) {
+	    		  tap.dispose();
+	    		  tap = null;
 				}
 		});
 	      
@@ -96,7 +116,13 @@ public class _OneandAll_MainScreen extends JFrame{
 	      schedule.addMouseListener(new MouseAdapter() {
 	    	  @Override
 				public void mouseEntered(MouseEvent e) {
-					new _Tap2();
+	    		  if(tap == null)
+						tap = new _Tap2();
+				}
+	    	  @Override
+				public void mousePressed(MouseEvent e) {
+	    		  tap.dispose();
+	    		  tap = null;
 				}
 		});
 	      
@@ -145,7 +171,7 @@ public class _OneandAll_MainScreen extends JFrame{
 	      
 	      setVisible(true);
 	      
-	      addWindowListener(new WindowListenerSave());
+//	      addWindowListener(new WindowListenerSave());
 	      
 
 

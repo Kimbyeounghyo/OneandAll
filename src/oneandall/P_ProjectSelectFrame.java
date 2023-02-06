@@ -104,9 +104,10 @@ public class P_ProjectSelectFrame extends JFrame {
 		scroll.setBackground(new Color(0, 0, 0, 255));
 		getContentPane().add(scroll);
 		
-		JButton realtimeChat = new PinkButton("실시간 채팅");
-		realtimeChat.setBounds(5, P_EnvironmentConfigure.PROJECT_HEIGHT * 9 / 10 + 10, P_EnvironmentConfigure.PROJECT_WIDTH - 10, 30);
-		add(realtimeChat);
+		UI_PinkLabel timelabel = new UI_PinkLabel();
+		timelabel.setBounds(5, P_EnvironmentConfigure.PROJECT_HEIGHT * 9 / 10 + 10, P_EnvironmentConfigure.PROJECT_WIDTH - 10, 30);
+		new Thread(new CPT_LoginInfo(timelabel)).start();
+		add(timelabel);
 
 		//----------------선택화면 Panel 끝---------------------------------------------------
 		

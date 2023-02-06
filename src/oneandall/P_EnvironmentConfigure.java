@@ -17,6 +17,11 @@ public abstract class P_EnvironmentConfigure {
       frame.setSize(new Dimension(P_EnvironmentConfigure.PROJECT_WIDTH + borderWidth, 
     		  P_EnvironmentConfigure.PROJECT_HEIGHT + borderHeight));
    }
+   public static void createFrame(JFrame frame, int width, int height) {
+	   int borderWidth = frame.getInsets().left + frame.getInsets().right;
+	   int borderHeight = frame.getInsets().top + frame.getInsets().bottom;
+	   frame.setSize(new Dimension(width + borderWidth, height + borderHeight));
+   }
 
    
    public void setWindowSize() {

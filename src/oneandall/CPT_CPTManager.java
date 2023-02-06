@@ -14,6 +14,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -89,7 +90,6 @@ public class CPT_CPTManager implements Runnable{
 		String filePath = "src" + File.separator + "oaadb" + File.separator + objectName.toLowerCase() + File.separator;
 		File targetFile = null;
 		
-		//파일의 크기가 0이면 데이터가 없어 파일을 새로 생성한 것이므로 아무것도 일어나지 않는다.
 		targetFile = new File(getFileNameFromPackage(filePath));
 		System.out.println(targetFile.getAbsolutePath());
 		if(!targetFile.exists()) {
@@ -145,7 +145,7 @@ public class CPT_CPTManager implements Runnable{
 	public static void getFromOaaDB() {
 		getFromOaaDB("Project");
 		getFromOaaDB("Coworker");
-		//getFromOaaDB("Task");
+		getFromOaaDB("Task");
 	}
 	
 	//oaadb 패키지 하위 파일을 불러오는 메소드
@@ -238,15 +238,16 @@ public class CPT_CPTManager implements Runnable{
 		try {
 			CPT_CPTManager.save("src" + File.separator + "oaadb" + File.separator + "project" + File.separator);
 			CPT_CPTManager.save("src" + File.separator + "oaadb" + File.separator + "coworker" + File.separator);
-//			CPT_CPTManager.save("src" + File.separator + "oaadb" + File.separator + "task" + File.separator);
+			CPT_CPTManager.save("src" + File.separator + "oaadb" + File.separator + "task" + File.separator);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
 	public static List<P_Task> getTasksFromProject(P_Project p) {
-		
 		if(CPT_CPTManager.tList == null) return null;
+		
+		CPT_CPTManager.tList.stream().forEach(c -> System.out.println("getTasksFromProject >>> : " + c.taskId));
 		
 		List<P_Task> tl = CPT_CPTManager.tList.stream()
 				.filter(t -> t.projectName.equals(p.name + "@" + p.projectId))
@@ -283,7 +284,7 @@ public class CPT_CPTManager implements Runnable{
 			P_Task t = tempTl.get(0);
 			if(t.priorTaskIds == 0) id = -1;
 			else id = t.priorTaskIds;
-			tl.add(t);
+			tl.add(0, t);
 		}
 		
 		return tl;
@@ -292,11 +293,11 @@ public class CPT_CPTManager implements Runnable{
 	public static P_Task findTaskById(long id) {
 		if(CPT_CPTManager.tList == null || CPT_CPTManager.tList.size() == 0) return null;
 		
-		List<P_Task> tl = CPT_CPTManager.tList.stream()
-				.filter(t -> t.taskId == id)
-				.collect(Collectors.toList());
+		for(P_Task t : CPT_CPTManager.tList) {
+			if(t.taskId == id) return t;
+		}
 		
-		return tl.get(0);
+		return null;
 	}
 
 	@Override

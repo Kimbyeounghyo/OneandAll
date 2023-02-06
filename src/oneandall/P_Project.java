@@ -24,7 +24,7 @@ public class P_Project implements Externalizable{
 
 	public P_Project(String name, String content, String startDate, String endDate) {
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		this.projectId = new Date().getTime();
 		this.name = name;

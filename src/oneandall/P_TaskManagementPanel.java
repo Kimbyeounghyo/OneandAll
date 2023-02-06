@@ -9,11 +9,15 @@ import java.awt.Insets;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.stream.Collectors;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -42,19 +46,27 @@ import oneandall.P_Task;
 
 public class P_TaskManagementPanel extends JDesktopPane {
 	
+	JDesktopPane myPanel;
 	JButton addTask;
 	JButton showPriorTask;
 	CPT_Coworker performer;
-	List<P_Task> tasks;
+	List<P_Task> showedTasks;
+	ListIterator<P_Task> irt = null;
 	
 	JTextField to;
 	JTextField from;
 	JTextField performerName;
 	JTextArea performWhat;
 	
+	JButton nextBtn;
+	JButton prevBtn;
+	
 	long currentTaskId;
+	String recentButton;
 	
 	public P_TaskManagementPanel() {
+		
+		myPanel = this;
 		
 		setLayout(null);
 		setBackground(Color.BLACK);
@@ -64,8 +76,26 @@ public class P_TaskManagementPanel extends JDesktopPane {
 		taskPanel.setBackground(Color.BLACK);
 		taskPanel.setBounds(50, 0, 800, 450);
 		
-		JButton prevBtn = new PinkRoundButton("<");
+		prevBtn = new PinkRoundButton("<");
 		prevBtn.setPreferredSize(new Dimension(30, 100));
+		prevBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(recentButton.equals("next")) {
+					irt.previous();
+					recentButton = "prev";
+				}
+				if(!irt.hasNext()) nextBtn.setText("|");
+				else nextBtn.setText(">");
+				if(!irt.hasPrevious()) prevBtn.setText("|");
+				else prevBtn.setText("<");
+				if(prevBtn.getText().equals("|")) {					
+					return;
+				}
+				showTask(irt.previous());
+			}
+		});
 		taskPanel.add(prevBtn, BorderLayout.WEST);
 		
 		JPanel taskContentPanel = new JPanel();
@@ -95,7 +125,15 @@ public class P_TaskManagementPanel extends JDesktopPane {
 		JLabel performerLabel = new PinkLabel("할사람");
 		shortPanel.add(performerLabel);
 		performerName = new RoundTextField();
-		performerName.setAlignmentX(CENTER_ALIGNMENT);
+		performerName.setFocusable(false);
+		performerName.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				
+				P_Project p = ((P_ProjectManagementPanel)getParent()).currentProject;
+				P_EnvironmentConfigure.createFrame(new P_SelectWorkerFrame(p.workers, myPanel), 150, 300);
+			}
+		});
 		shortPanel.add(performerName);
 		JLabel performContent = new PinkLabel("할내용");
 		shortPanel.add(performContent);
@@ -106,11 +144,28 @@ public class P_TaskManagementPanel extends JDesktopPane {
 		JScrollPane scroll = new PinkScroll(performWhat);
 		taskContentPanel.add(scroll);//, BorderLayout.CENTER);
 		
-		
 		taskPanel.add(taskContentPanel, BorderLayout.CENTER);
+		//-----------------------------------------------------------------------------
 		
-		JButton nextBtn = new PinkRoundButton(">");
+		nextBtn = new PinkRoundButton(">");
 		nextBtn.setPreferredSize(new Dimension(30, 100));
+		nextBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("action next! >>> : " + recentButton);
+				if(recentButton.equals("prev")) {
+					irt.next();
+					recentButton = "next";
+				}
+				if(!irt.hasNext()) nextBtn.setText("|");
+				else nextBtn.setText(">");
+				if(!irt.hasPrevious()) prevBtn.setText("|");
+				else prevBtn.setText("<");
+				if(nextBtn.getText().equals("|")) return;
+				showTask(irt.next());
+			}
+		});
 		taskPanel.add(nextBtn, BorderLayout.EAST);
 		
 		add(taskPanel, JDesktopPane.DEFAULT_LAYER);
@@ -132,7 +187,8 @@ public class P_TaskManagementPanel extends JDesktopPane {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				java.util.Date now = new java.util.Date();
 				P_Task newTask = new P_Task();
-				newTask.projectName = ((P_ProjectManagementPanel)getParent()).currentProject.name;
+				P_Project p = ((P_ProjectManagementPanel)getParent()).currentProject;
+				newTask.projectName = p.name + "@" + p.projectId;
 				try {
 					newTask.startDate = sdf.parse(from.getText());
 					newTask.endDate = sdf.parse(to.getText());
@@ -140,11 +196,6 @@ public class P_TaskManagementPanel extends JDesktopPane {
 					JOptionPane.showMessageDialog(null, "날짜형식을 yyyy-mm-dd 로 설정해주세요");
 					newTask.startDate = null;
 					newTask.endDate = null;
-					return;
-				}
-				
-				if(newTask.endDate.compareTo(now) < 0){
-					JOptionPane.showMessageDialog(null, "오늘보다 일찍 마감일을 설정할 수 없어요");
 					return;
 				}
 				
@@ -167,6 +218,8 @@ public class P_TaskManagementPanel extends JDesktopPane {
 				CPT_CPTManager.tList.add(newTask);
 				
 				JOptionPane.showMessageDialog(null, "해당 업무를 " + performerName.getText() + "에게 시켰어요");
+				
+				((P_ProjectManagementPanel)getParent()).requestRefresh();
 			}
 		});
 		additionalBtns.add(addTask);
@@ -180,8 +233,9 @@ public class P_TaskManagementPanel extends JDesktopPane {
 			public void actionPerformed(ActionEvent e) {
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				P_Task aTask = CPT_CPTManager.findTaskById(currentTaskId);
-				if(aTask == null) JOptionPane.showMessageDialog(null, "현재 선택된 업무가 없습니다");
-				aTask.projectName = ((P_ProjectManagementPanel)getParent()).currentProject.name;
+				if(aTask == null) JOptionPane.showMessageDialog(null, "수정할 대상이 없어요");
+				P_Project p = ((P_ProjectManagementPanel)getParent()).currentProject;
+				aTask.projectName = p.name + "@" + p.projectId;
 				try {
 					aTask.startDate = sdf.parse(from.getText());
 					aTask.endDate = sdf.parse(to.getText());
@@ -193,6 +247,8 @@ public class P_TaskManagementPanel extends JDesktopPane {
 				aTask.content = performWhat.getText();
 				
 				JOptionPane.showMessageDialog(null, "해당 업무를 수정했어요");
+				
+				((P_ProjectManagementPanel)getParent()).requestRefresh();
 			}
 		});
 		additionalBtns.add(updateTaskBtn);//, BorderLayout.SOUTH);
@@ -216,7 +272,8 @@ public class P_TaskManagementPanel extends JDesktopPane {
 				
 				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 				CPT_CPTManager.clipBoard = new P_Task();
-				CPT_CPTManager.clipBoard.projectName = ((P_ProjectManagementPanel)getParent()).currentProject.name;
+				P_Project p = ((P_ProjectManagementPanel)getParent()).currentProject;
+				CPT_CPTManager.clipBoard.projectName = p.name;
 				try {
 					System.out.println(from.getText());
 					System.out.println(to.getText());
@@ -267,7 +324,7 @@ public class P_TaskManagementPanel extends JDesktopPane {
 				
 				String contentTotal = "";
 				for(P_Task t : ctl) {
-					contentTotal += t.content;
+					contentTotal += t.content + "\n";
 				}
 				
 				JOptionPane.showMessageDialog(null, "선행업무 정보입니다\n" + contentTotal);
@@ -287,19 +344,67 @@ public class P_TaskManagementPanel extends JDesktopPane {
 	}
 	
 	public void setTasks(List<P_Task> tl) {
-		tasks = tl;
-		if(tasks != null)
-			showTask(tasks.get(0));
+		showedTasks = tl;
+		
+		if(showedTasks != null) {
+			for(P_Task t : tl) {
+				System.out.println("tEnddate : " + t.endDate);
+			}
+			
+			irt = tl.listIterator();
+			
+			clearTask();
+			if(irt.hasNext()) {
+				showTask(irt.next());
+			}else {
+				nextBtn.setText("|");
+			}
+			prevBtn.setText("|");
+			recentButton = "next";
+		}else {
+			nextBtn.setText("|");
+			prevBtn.setText("|");
+		}
+		
 	}
 	
 	public void showTask(P_Task t) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		to.setText(sdf.format(t.startDate));
-		from.setText(sdf.format(t.endDate));
+		from.setText(sdf.format(t.startDate));
+		to.setText(sdf.format(t.endDate));
 		if(t.worker != null)
 			performerName.setText(t.worker.name);
 		performWhat.setText(t.content);
+		performer = t.worker;
+		System.out.println("current task >> : " + t.taskId + "@  " + t.endDate);
 		currentTaskId = t.taskId;
+
+		if(!irt.hasPrevious()) {
+			prevBtn.setText("|");
+		}else {
+			prevBtn.setText("<");
+		}
+		if(!irt.hasNext()) {
+			nextBtn.setText("|");
+		}else {
+			nextBtn.setText(">");
+		}
+	}
+	public void clearTask() {
+		from.setText("");
+		to.setText("");
+		performerName.setText("");
+		performWhat.setText("");
+		currentTaskId = -1;
+	}
+	
+	public void setPerformerInfo(CPT_Coworker pfm) {
+		this.performer = pfm;
+		performerName.setText(performer.name);
+	}
+	
+	public long getCurrentTaskId() {
+		return currentTaskId;
 	}
 	
 	public static void main(String[] args) {

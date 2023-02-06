@@ -7,9 +7,13 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.ListIterator;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -39,17 +43,30 @@ public class P_TaskHistoryPanel extends JDesktopPane {
 	JPanel cPanel;
 	JButton nextBtn;
 	JButton moveBtn;
+	JButton prevBtn;
+	String recentButton;
 	
-	JTextField from;
-	JTextField to;
-	JLabel fromto;
 	
 	JPanel additionalBounds;
 	List<P_Task> tasks;
+	ListIterator<P_Task> irt;
 	
-	JTextField performerName;
-	JTextField performWhat;
 	long currentTaskId;
+	
+	JTextField fromt;
+	JTextField tot;
+	JLabel fromtot;
+	JTextField performerNamet;
+	RoundTextArea performWhatt;
+	
+	JTextField fromc;
+	JTextField toc;
+	JLabel fromtoc;
+	JTextField performerNamec;
+	RoundTextArea performWhatc;
+	
+	CPT_Coworker tempPerformer;
+	
 	
 	public P_TaskHistoryPanel() {
 		
@@ -63,8 +80,26 @@ public class P_TaskHistoryPanel extends JDesktopPane {
 		taskParent.setBackground(Color.BLACK);
 		taskParent.setBounds(50, 0, 800, 450);
 		
-		JButton prevBtn = new PinkRoundButton("<");
+		prevBtn = new PinkRoundButton("<");
 		prevBtn.setPreferredSize(new Dimension(30, 100));
+		prevBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(recentButton.equals("next")) {
+					irt.previous();
+					recentButton = "prev";
+				}
+				if(!irt.hasNext()) nextBtn.setText("|");
+				else nextBtn.setText(">");
+				if(!irt.hasPrevious()) prevBtn.setText("|");
+				else prevBtn.setText("<");
+				if(prevBtn.getText().equals("|")) {					
+					return;
+				}
+				showTask(irt.previous());
+			}
+		});
 		taskParent.add(prevBtn, BorderLayout.WEST);
 		
 		task = new JPanel();
@@ -78,33 +113,33 @@ public class P_TaskHistoryPanel extends JDesktopPane {
 		shortPanel.add(deadlineLabel);
 		JPanel deadlinePanel = new JPanel(new FlowLayout());
 		deadlinePanel.setBackground(Color.BLACK);
-		from = new RoundTextField();
-		from.setPreferredSize(new Dimension(272, 30));
-		from.setEnabled(false);
-		deadlinePanel.add(from);
-		fromto = new PinkLabel("~");
-		fromto.setPreferredSize(new Dimension(101, 30));
-		deadlinePanel.add(fromto);
-		to = new RoundTextField();
-		to.setPreferredSize(new Dimension(272, 30));
-		to.setEnabled(false);
-		deadlinePanel.add(to);
+		fromt = new RoundTextField();
+		fromt.setPreferredSize(new Dimension(272, 30));
+		fromt.setEnabled(false);
+		deadlinePanel.add(fromt);
+		fromtot = new PinkLabel("~");
+		fromtot.setPreferredSize(new Dimension(101, 30));
+		deadlinePanel.add(fromtot);
+		tot = new RoundTextField();
+		tot.setPreferredSize(new Dimension(272, 30));
+		tot.setEnabled(false);
+		deadlinePanel.add(tot);
 		shortPanel.add(deadlinePanel);
 		
 		
 		JLabel performerLabel = new PinkLabel("할사람");
 		shortPanel.add(performerLabel);
-		JTextField performerName = new RoundTextField();
-		performerName.setEditable(false);
-		shortPanel.add(performerName);
+		performerNamet = new RoundTextField();
+		performerNamet.setEditable(false);
+		shortPanel.add(performerNamet);
 		JLabel performContent = new PinkLabel("할내용");
 		shortPanel.add(performContent);
 		
 		task.add(shortPanel);//, BorderLayout.NORTH);
 		
-		JTextArea performWhat = new RoundTextArea();
-		performWhat.setEnabled(false);
-		JScrollPane scroll = new PinkScroll(performWhat);
+		performWhatt = new RoundTextArea();
+		performWhatt.setEnabled(false);
+		JScrollPane scroll = new PinkScroll(performWhatt);
 		task.add(scroll);//, BorderLayout.CENTER);
 		
 		
@@ -112,6 +147,24 @@ public class P_TaskHistoryPanel extends JDesktopPane {
 		
 		nextBtn = new PinkRoundButton(">");
 		nextBtn.setPreferredSize(new Dimension(30, 100));
+		nextBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(recentButton.equals("prev")) {
+					irt.next();
+					recentButton = "next";
+				}
+				if(!irt.hasNext()) nextBtn.setText("|");
+				else nextBtn.setText(">");
+				if(!irt.hasPrevious()) prevBtn.setText("|");
+				else prevBtn.setText("<");
+				if(nextBtn.getText().equals("|")) {					
+					return;
+				}
+				showTask(irt.next());
+			}
+		});
 		taskParent.add(nextBtn, BorderLayout.EAST);
 		
 		add(taskParent, JDesktopPane.DEFAULT_LAYER);
@@ -126,10 +179,42 @@ public class P_TaskHistoryPanel extends JDesktopPane {
 //		addTask.setPreferredSize(new Dimension(30, 30));
 //		additionalBtns.add(addTask);
 		JButton doLink = new PinkRoundIconButton(new File("src\\images\\pinkLinkButton.png"));
+		doLink.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+				CPT_CPTManager.clipBoard = new P_Task();
+				P_Project p = ((P_ProjectHistoryPanel)getParent()).currentProject;
+				CPT_CPTManager.clipBoard.projectName = p.name;
+				try {
+					CPT_CPTManager.clipBoard.startDate = sdf.parse(fromc.getText());
+					CPT_CPTManager.clipBoard.endDate = sdf.parse(toc.getText());
+				} catch (ParseException e1) {
+					System.out.println(CPT_CPTManager.clipBoard.projectName + "의 업무기한 복사 실패");
+					CPT_CPTManager.clipBoard.startDate = null;
+					CPT_CPTManager.clipBoard.endDate = null;
+				}
+				CPT_CPTManager.clipBoard.worker = tempPerformer;
+				CPT_CPTManager.clipBoard.content = performWhatc.getText();
+			}
+		});
 		doLink.setPreferredSize(new Dimension(30, 30));
 		additionalBounds.add(doLink);
 		
 		moveBtn = new PinkRoundIconButton(new File("src\\images\\compareButton.png"));
+		moveBtn.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				fromc.setText(fromt.getText());
+				toc.setText(tot.getText());
+				performerNamec.setText(performerNamet.getText());
+				performWhatc.setText(performWhatt.getText());
+			}
+		});
 		moveBtn.setPreferredSize(new Dimension(30, 30));
 		
 		JPanel additionalRightBtn = new JPanel();
@@ -161,35 +246,35 @@ public class P_TaskHistoryPanel extends JDesktopPane {
 		shortPanel.add(deadlineLabel);
 		JPanel deadlinePanel = new JPanel(new FlowLayout());
 		deadlinePanel.setBackground(Color.RED);
-		JTextField from = new RoundTextField();
-		from.setPreferredSize(new Dimension(100, 30));
-		deadlinePanel.add(from);
-		JLabel fromto = new PinkLabel("~");
-		fromto.setPreferredSize(new Dimension(50, 30));
-		deadlinePanel.add(fromto);
-		JTextField to = new RoundTextField();
-		to.setPreferredSize(new Dimension(100, 30));
-		deadlinePanel.add(to);
+		fromc = new RoundTextField();
+		fromc.setPreferredSize(new Dimension(100, 30));
+		deadlinePanel.add(fromc);
+		fromtoc = new PinkLabel("~");
+		fromtoc.setPreferredSize(new Dimension(50, 30));
+		deadlinePanel.add(fromtoc);
+		toc = new RoundTextField();
+		toc.setPreferredSize(new Dimension(100, 30));
+		deadlinePanel.add(toc);
 		shortPanel.add(deadlinePanel);
 		
 		
 		JLabel performerLabel = new PinkLabel("할사람");
 		shortPanel.add(performerLabel);
-		JTextField performerName = new RoundTextField();
-		performerName.setAlignmentX(CENTER_ALIGNMENT);
-		shortPanel.add(performerName);
+		performerNamec = new RoundTextField();
+		performerNamec.setAlignmentX(CENTER_ALIGNMENT);
+		shortPanel.add(performerNamec);
 		JLabel performContent = new PinkLabel("할내용");
 		shortPanel.add(performContent);
 		
 		cPanel.add(shortPanel);//, BorderLayout.NORTH);
 		
-		JTextArea performWhat = new RoundTextArea();
-		JScrollPane scroll = new PinkScroll(performWhat);
+		performWhatc = new RoundTextArea();
+		JScrollPane scroll = new PinkScroll(performWhatc);
 		cPanel.add(scroll);//, BorderLayout.CENTER);
 		
-		this.from.setPreferredSize(new Dimension(100, 30));
-		this.fromto.setPreferredSize(new Dimension(50, 30));
-		this.to.setPreferredSize(new Dimension(100, 30));
+		this.fromt.setPreferredSize(new Dimension(100, 30));
+		this.fromtot.setPreferredSize(new Dimension(50, 30));
+		this.tot.setPreferredSize(new Dimension(100, 30));
 		task.setPreferredSize(new Dimension(350, 435));
 		taskParent.remove(task);
 		taskParent.remove(nextBtn);
@@ -203,9 +288,9 @@ public class P_TaskHistoryPanel extends JDesktopPane {
 	public void outCompareMode() {
 		additionalBounds.setBounds(120, 5, 400, 50);
 		additionalBounds.remove(moveBtn);
-		from.setPreferredSize(new Dimension(272, 30));
-		fromto.setPreferredSize(new Dimension(101, 30));
-		to.setPreferredSize(new Dimension(272, 30));
+		fromt.setPreferredSize(new Dimension(272, 30));
+		fromtot.setPreferredSize(new Dimension(101, 30));
+		tot.setPreferredSize(new Dimension(272, 30));
 		task.setPreferredSize(new Dimension(675, 450));
 		taskParent.remove(tPanel);
 		taskParent.remove(nextBtn);
@@ -215,18 +300,57 @@ public class P_TaskHistoryPanel extends JDesktopPane {
 	}
 	
 	public void setTasks(List<P_Task> tl) {
+		
 		tasks = tl;
-		if(tasks != null)
-			showTask(tasks.get(0));
+		
+		if(tasks != null) {
+			for(P_Task t : tl) {
+				System.out.println("tEnddate : " + t.endDate);
+			}
+			
+			irt = tl.listIterator();
+			
+			clearTask();
+			if(irt.hasNext()) {
+				showTask(irt.next());
+			}else {
+				nextBtn.setText("|");
+			}
+			prevBtn.setText("|");
+			recentButton = "next";
+		}else {
+			nextBtn.setText("|");
+			prevBtn.setText("|");
+		}
 	}
 	
 	public void showTask(P_Task t) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		to.setText(sdf.format(t.startDate));
-		from.setText(sdf.format(t.endDate));
-		performerName.setText(t.worker.name);
-		performWhat.setText(t.content);
+		fromt.setText(sdf.format(t.startDate));
+		tot.setText(sdf.format(t.endDate));
+		performerNamet.setText(t.worker.name);
+		performWhatt.setText(t.content);
 		currentTaskId = t.taskId;
+		tempPerformer = t.worker;
+		
+		if(!irt.hasPrevious()) {
+			prevBtn.setText("|");
+		}else {
+			prevBtn.setText("<");
+		}
+		if(!irt.hasNext()) {
+			nextBtn.setText("|");
+		}else {
+			nextBtn.setText(">");
+		}
+	}
+	
+	public void clearTask() {
+		fromt.setText("");
+		tot.setText("");
+		performerNamet.setText("");
+		performWhatt.setText("");
+		currentTaskId = -1;
 	}
 	
 	public static void main(String[] args) {

@@ -112,6 +112,9 @@ public class P_ProjectHistoryPanel extends JPanel {
 	
 		taskManagement = new P_TaskHistoryPanel();
 		taskManagement.setLocation(50, 300);
+		List<P_Task> tl = CPT_CPTManager.getTasksFromProject(currentProject);
+		((P_TaskHistoryPanel)taskManagement).setTasks(tl);
+		
 		optionPanel = new P_HistoryOptionPanel();
 		optionPanel.setPreferredSize(new Dimension(300, 500));
 		
@@ -135,6 +138,8 @@ public class P_ProjectHistoryPanel extends JPanel {
 				
 			}
 		});
+		
+		((P_HistoryOptionPanel)optionPanel).refreshTask(this);
 		
 		add(taskManagement, BorderLayout.CENTER);
 		add(optionPanel, BorderLayout.EAST);

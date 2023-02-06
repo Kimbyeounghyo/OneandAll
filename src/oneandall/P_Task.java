@@ -20,12 +20,12 @@ public class P_Task implements Externalizable{
 	public long priorTaskIds; //선행업무
 	
 	public P_Task() {
-		// TODO Auto-generated constructor stub
+		this.taskId = new Date().getTime();
 	}
 
 	public P_Task(String projectName, String content, CPT_Coworker worker, String startDate, String endDate,
 			long priorTaskIds) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		
 		this.taskId = new Date().getTime();
 		this.projectName = projectName;
@@ -75,12 +75,12 @@ public class P_Task implements Externalizable{
 		return false;
 	}
 
-	public Date getStartDate() {
-		return startDate;
+	public String getStartDate() {
+		return new SimpleDateFormat("yyyy-MM-dd").format(startDate);
 	}
 
-	public Date getEndDate() {
-		return endDate;
+	public String getEndDate() {
+		return new SimpleDateFormat("yyyy-MM-dd").format(endDate);
 	}
 	
 	

@@ -536,7 +536,7 @@ class Calendarmain extends JFrame implements ActionListener{
 //					loadSch();
 //					personalSch("hwkim");
 //				}
-//				else if(jComboBox.getSelectedItem().equals("이채윤(부팀장)")) {
+//				else if(jComboBox.getSelectedItem().equals("이채윤")) {
 //					loadSch();
 //					personalSch("cylee");
 //				}
@@ -544,7 +544,7 @@ class Calendarmain extends JFrame implements ActionListener{
 //					loadSch();
 //					personalSch("jekim");
 //				}
-//				else if(jComboBox.getSelectedItem().equals("김병효(팀장)")) {
+//				else if(jComboBox.getSelectedItem().equals("김병효")) {
 //					loadSch();
 //					personalSch("bhkim");
 //

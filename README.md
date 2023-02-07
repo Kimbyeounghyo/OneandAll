@@ -160,3 +160,12 @@
 ### 텍스트필드에서 입력 후 캘린더 화면에 바로 출력 / 파일로 저장되지 않은 상태		 
 ![1](https://user-images.githubusercontent.com/96603612/216771150-140a0284-0d44-4769-b81f-e8664fdd6dea.jpg)
 
+![슬라이드1](https://user-images.githubusercontent.com/96603612/217136447-9f78d744-309e-463c-94b6-f822ee296883.JPG)
+![슬라이드2](https://user-images.githubusercontent.com/96603612/217136451-656532db-be8c-4d66-aff1-6a3fda7c916a.JPG)
+![슬라이드3](https://user-images.githubusercontent.com/96603612/217136457-b66008d4-052a-4f26-ab78-ab568674a9a1.JPG)
+![슬라이드4](https://user-images.githubusercontent.com/96603612/217136465-1f54e8a9-ca76-4a1c-a49b-80bf253d4a73.JPG)
+
+
+![슬라이드5](https://user-images.githubusercontent.com/96603612/217136468-07591a3c-f6e1-4840-bead-820cb02cf5ef.JPG)
+![슬라이드6](https://user-images.githubusercontent.com/96603612/217136471-e7f30591-3c5e-4c4e-aaef-97c6e22a7e2d.JPG)
+![슬라이드7](https://user-images.githubusercontent.com/96603612/217136474-770920d4-beb5-419e-8b6b-2c67d9d6c9e8.JPG)

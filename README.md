@@ -160,6 +160,8 @@
 ### 텍스트필드에서 입력 후 캘린더 화면에 바로 출력 / 파일로 저장되지 않은 상태		 
 ![1](https://user-images.githubusercontent.com/96603612/216771150-140a0284-0d44-4769-b81f-e8664fdd6dea.jpg)
 
+## 기능 화면 요약
+
 ![슬라이드1](https://user-images.githubusercontent.com/96603612/217136447-9f78d744-309e-463c-94b6-f822ee296883.JPG)
 ![슬라이드2](https://user-images.githubusercontent.com/96603612/217136451-656532db-be8c-4d66-aff1-6a3fda7c916a.JPG)
 ![슬라이드3](https://user-images.githubusercontent.com/96603612/217136457-b66008d4-052a-4f26-ab78-ab568674a9a1.JPG)
